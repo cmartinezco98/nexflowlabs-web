@@ -20,19 +20,20 @@ Presentar a NexFlow Labs como empresa de desarrollo web, aplicaciones y soporte 
 
 ## Estructura de la home
 
-Patrones adaptados (nov 2026) de K3A Solutions, Zennovia y ToGrow; solo diseño y movimiento, sin su contenido, cifras ni formularios que guarden datos.
+Patrones adaptados (nov 2026) de las páginas de producto de Apple (iPhone Air y Duo), K3A Solutions, Zennovia y ToGrow: solo diseño y movimiento, sin su marca, imágenes, textos, cifras ni formularios que guarden datos. El celular está dibujado en CSS (`device.tsx`) y no imita un modelo real.
 
-1. **Barra flotante tipo píldora** que se compacta al bajar.
-2. **Hero:** "Construimos su software" sobre una cuadrícula de plano con línea de escaneo; Alfred en un teléfono y una pantalla de cocina que flotan.
+1. **Barra de vidrio** fija que se asienta al bajar.
+2. **Hero:** "Construimos su software"; un celular con Alfred sube al cargar, se inclina al bajar y lo rodean tres avisos de vidrio.
 3. **Cinta de servicios** en movimiento continuo.
-4. **Frase** que se ilumina con el scroll.
-5. **Servicios en acordeón** y público.
-6. **Cómo trabajamos:** tres pasos con una línea que se llena.
-7. **Alfred:** cuatro pasos (carta, pedido, cocina, pago) con el teléfono fijo y la pantalla cambiando.
-8. **Arme su solicitud:** tres preguntas que arman un mensaje; el visitante lo envía por WhatsApp o correo.
-9. **Preguntas frecuentes, cierre, pie** y botón flotante de WhatsApp.
+4. **Párrafo** con frases clave que se encienden con el scroll.
+5. **Alfred, de frente:** el celular gira de canto a frente mientras la sección queda fija.
+6. **Recorra un pedido:** control segmentado de vidrio que cambia la pantalla (carta, pedido, cocina, pago).
+7. **Servicios** en tarjetas de vidrio.
+8. **Cómo trabajamos:** tres pasos con una línea que se llena.
+9. **Arme su solicitud:** tres preguntas que arman un mensaje para WhatsApp o correo.
+10. **Preguntas frecuentes, cierre en vidrio, pie** y botón flotante de WhatsApp.
 
-Las animaciones ligadas al scroll usan CSS `animation-timeline` (Chrome y Edge); en otros navegadores el contenido queda visible y quieto.
+Las animaciones ligadas al scroll usan CSS `animation-timeline` (Chrome y Edge); en otros navegadores el contenido queda visible, de frente y quieto.
 
 ## Arquitectura
 
@@ -40,7 +41,7 @@ Las animaciones ligadas al scroll usan CSS `animation-timeline` (Chrome y Edge);
 Navegador
   └── Sitio Next.js (estático)
       ├── src/data/home.ts           contenido
-      ├── src/components/home/       secciones; service-accordion y brief-wizard son de cliente
+      ├── src/components/home/       secciones; order-tour y brief-wizard son de cliente; device dibuja el celular
       └── CTA externos: mailto / wa.me / alfred.nexflowlabs.co
 ```
 

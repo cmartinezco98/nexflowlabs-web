@@ -77,10 +77,10 @@ export const workSteps = [
 
 // Recorrido de un pedido en Alfred, según alfred.nexflowlabs.co. Platos y precios de las pantallas son de ejemplo.
 export const alfredStory = [
-  { label: "Carta con IA", title: "Suba su carta", text: "Con una foto, un PDF o el texto, Alfred arma la carta digital." },
-  { label: "Pedido desde la mesa", title: "El cliente pide", text: "Escanea el QR de su mesa y pide desde el celular, sin descargar nada." },
-  { label: "Pantalla de cocina", title: "Llega a cocina", text: "El pedido aparece en vivo con el número de mesa." },
-  { label: "Cobro con QR", title: "Paga sin datáfono", text: "Con Bre-B o Nequi." },
+  { tab: "Carta", label: "Carta con IA", title: "Suba su carta", text: "Con una foto, un PDF o el texto, Alfred arma la carta digital." },
+  { tab: "Pedido", label: "Pedido desde la mesa", title: "El cliente pide", text: "Escanea el QR de su mesa y pide desde el celular, sin descargar nada." },
+  { tab: "Cocina", label: "Pantalla de cocina", title: "Llega a cocina", text: "El pedido aparece en vivo con el número de mesa." },
+  { tab: "Pago", label: "Cobro con QR", title: "Paga sin datáfono", text: "Con Bre-B o Nequi." },
 ] as const;
 
 export const sampleDishes = [

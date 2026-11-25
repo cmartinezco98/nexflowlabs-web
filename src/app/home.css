@@ -1,4 +1,5 @@
-/* Home inmersiva, paleta Noche. Patrones adaptados de K3A, Zennovia y ToGrow (ver system-design.md). */
+/* Home, paleta Noche. Celular dibujado en CSS, vidrio tipo iOS y animaciones ligadas al scroll
+   (patrones adaptados de páginas de producto de Apple, K3A, Zennovia y ToGrow; ver system-design.md). */
 
 @font-face {
   font-family: "Elianto";
@@ -23,6 +24,7 @@
   --surface-3: #2a3a52;
   --ink: #eceef1;
   --soft: #b9c6d6;
+  --dim: #7d8ca2;
   --data: #8fb3ff;
   --coral: #ff544c;
   --ok: #2e9d5b;
@@ -31,6 +33,7 @@
   --display: "Oxanium", "Space Grotesk", sans-serif;
   --short: "Nidus Sans", "Space Grotesk", sans-serif;
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --spring: cubic-bezier(0.34, 1.56, 0.64, 1);
 
   background: var(--bg);
   color: var(--ink);
@@ -79,20 +82,20 @@
 }
 
 /* Oxanium en títulos; Nidus Sans (solo mayúsculas) en textos cortos. */
-.home :is(h1, h2, h3, .app__title, .ticker__item, .process__when, .app__amount) {
+.home :is(h1, h2, h3, .app__title, .ticker__item, .process__when, .app__amount, .widget b) {
   font-family: var(--display);
   font-weight: 300;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.05em;
   line-height: 1.04;
 }
 
-.home :is(.topnav__links, .button, .hero__kicker, .eyebrow, .acc__detail, .acc__examples, .audiences__label, .app__live, .brief__step, .brief__back, .footer__cols) {
+.home :is(.topnav__links, .button, .hero__kicker, .eyebrow, .chip, .service__examples, .segmented__option, .app__live, .brief__step, .brief__back, .footer__cols) {
   font-family: var(--short);
 }
 
 .home .section-title {
-  font-size: clamp(36px, 4.6vw, 64px);
+  font-size: clamp(36px, 4.8vw, 68px);
   font-weight: 200;
 }
 
@@ -105,6 +108,54 @@
 .note {
   font-size: 15px;
   color: var(--soft);
+}
+
+/* ---------- Vidrio tipo iOS: desenfoque, saturación y borde de luz ---------- */
+
+.glass {
+  position: relative;
+  background: rgb(255 255 255 / 0.07);
+  backdrop-filter: blur(26px) saturate(180%);
+  -webkit-backdrop-filter: blur(26px) saturate(180%);
+  border: 1px solid rgb(255 255 255 / 0.16);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.32),
+    0 18px 50px rgb(0 0 0 / 0.35); /* taste-skill-ignore: profundidad del vidrio */
+}
+
+.glass::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(160deg, rgb(255 255 255 / 0.2), transparent 38%, transparent 70%, rgb(255 255 255 / 0.07)); /* taste-skill-ignore: reflejo del vidrio */
+}
+
+.glass--light {
+  background: rgb(236 238 241 / 0.74);
+  color: var(--bg);
+  border-color: rgb(255 255 255 / 0.6);
+}
+
+.glow {
+  position: absolute;
+  left: 50%;
+  top: 140px;
+  width: 640px;
+  height: 520px;
+  margin-left: -320px;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgb(143 179 255 / 0.28), transparent); /* taste-skill-ignore: luz detrás del celular para que se note el vidrio */
+  pointer-events: none;
+}
+
+.glow--warm {
+  top: 260px;
+  width: 420px;
+  height: 340px;
+  margin-left: -60px;
+  background: radial-gradient(closest-side, rgb(255 84 76 / 0.18), transparent); /* taste-skill-ignore: luz cálida */
 }
 
 /* ---------- Botones: el coral es solo para acciones ---------- */
@@ -122,23 +173,22 @@
   font-size: 16px;
   text-decoration: none;
   cursor: pointer;
-  transition: transform 200ms var(--ease), background-color 200ms ease, color 200ms ease;
+  transition: transform 300ms var(--spring), background-color 200ms ease, color 200ms ease;
 }
 
 .home .button:hover {
   background: var(--ink);
   color: var(--bg);
-  transform: translateY(-2px);
+  transform: scale(1.04);
 }
 
 .home .button:active {
-  transform: scale(0.97);
+  transform: scale(0.96);
 }
 
-.home .button--ghost {
-  background: transparent;
+.home .button--glass {
+  background: rgb(255 255 255 / 0.07);
   color: var(--ink);
-  box-shadow: inset 0 0 0 1px var(--soft); /* taste-skill-ignore: contorno del botón secundario */
 }
 
 .home .button--small {
@@ -153,28 +203,25 @@
   gap: 12px;
 }
 
-/* ---------- Barra flotante tipo píldora ---------- */
+/* ---------- Barra de vidrio fija ---------- */
 
 .topnav {
   position: sticky;
-  top: 16px;
+  top: 14px;
   z-index: 20;
-  max-width: 1120px;
-  margin: 16px auto 0;
+  max-width: 1100px;
+  margin: 14px auto 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 16px;
   padding: 8px 8px 8px 24px;
   border-radius: 999px;
-  background: rgb(23 33 48 / 0.78);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
 }
 
 .home .wordmark {
   font-family: var(--brand);
-  font-size: 20px;
+  font-size: 19px;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: var(--ink);
@@ -184,7 +231,7 @@
 
 .topnav__links {
   display: flex;
-  gap: 28px;
+  gap: 26px;
   font-size: 14px;
 }
 
@@ -198,178 +245,224 @@
   color: var(--data);
 }
 
-/* ---------- Hero: plano, línea de escaneo y Alfred flotando ---------- */
+/* ---------- Hero: el celular sube y los avisos de vidrio aparecen ---------- */
 
 .hero {
   position: relative;
-  max-width: 1280px;
-  min-height: 820px;
-  margin: 0 auto;
-  padding: 40px var(--m) 80px;
-  display: grid;
-  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
-  align-items: center;
-  gap: 40px;
-}
-
-.hero__grid {
-  position: absolute;
-  inset: -120px 0 0;
-  pointer-events: none;
-  background-image: linear-gradient(#1a2433 1px, transparent 1px), linear-gradient(90deg, #1a2433 1px, transparent 1px); /* taste-skill-ignore: cuadrícula de plano */
-  background-size: 64px 64px;
-  mask-image: radial-gradient(ellipse at 70% 40%, #000 30%, transparent 75%);
-  overflow: hidden;
-}
-
-.hero__scan {
-  position: absolute;
-  inset: 0 0 auto;
-  height: 1px;
-  background: var(--data);
-  opacity: 0.35;
-  animation: scan 7s linear infinite;
-}
-
-.hero__copy {
-  position: relative;
+  padding: 110px var(--m) 0;
   display: flex;
   flex-direction: column;
-  gap: 28px;
+  align-items: center;
+  gap: 22px;
+  text-align: center;
 }
 
 .hero__kicker {
   font-size: 14px;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.22em;
   color: var(--soft);
-  animation: fade-up 800ms var(--ease) 200ms both;
+  animation: fade-up 900ms var(--ease) 150ms both;
 }
 
 .home .hero__title {
-  font-size: clamp(44px, 5.4vw, 84px);
+  font-size: clamp(46px, 8.4vw, 128px);
   font-weight: 200;
-}
-
-.mask {
-  display: block;
-  overflow: hidden;
-  padding-bottom: 0.04em;
-}
-
-.mask > span {
-  display: block;
-  animation: mask-rise 1000ms var(--ease) both;
-}
-
-.mask--2 > span {
-  animation-delay: 120ms;
+  line-height: 1.02;
+  animation: fade-up 1100ms var(--ease) 250ms both;
 }
 
 .hero__lead {
-  max-width: 34ch;
-  font-size: clamp(18px, 1.6vw, 22px);
+  max-width: 36ch;
+  font-size: clamp(18px, 1.7vw, 23px);
   color: var(--soft);
-  animation: fade-up 800ms var(--ease) 450ms both;
+  animation: fade-up 1000ms var(--ease) 450ms both;
 }
 
 .hero__actions {
-  animation: fade-up 800ms var(--ease) 600ms both;
+  justify-content: center;
+  animation: fade-up 1000ms var(--ease) 600ms both;
 }
 
 .stage {
   position: relative;
-  height: 640px;
-  animation: fade-up 1200ms var(--ease) 300ms both;
+  width: 100%;
+  max-width: 1100px;
+  height: 720px;
+  margin-top: 40px;
+  display: flex;
+  justify-content: center;
+  perspective: 1600px;
 }
 
-.stage__back,
-.stage__front {
+.stage__rise {
+  position: relative;
+  z-index: 2;
+  animation: rise 1600ms var(--ease) 500ms both;
+}
+
+.stage__tilt {
+  transform-style: preserve-3d;
+}
+
+.widget {
   position: absolute;
+  z-index: 3;
+  min-width: 200px;
+  padding: 16px 18px;
+  border-radius: 26px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-align: left;
+  font-size: 15px;
 }
 
-.stage__front {
-  top: 20px;
-  right: 8%;
+.widget small {
+  font-size: 13px;
+  color: var(--soft);
 }
 
-.stage__back {
-  bottom: 30px;
-  left: 0;
+.home .widget b {
+  font-size: 22px;
 }
 
-.float {
-  animation: float 7s ease-in-out infinite;
-}
-
-.float--late {
-  animation-delay: -3.5s;
-}
-
-.stage__chip {
-  position: absolute;
-  right: 0;
-  bottom: 150px;
+.widget__row {
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 12px 16px;
-  border-radius: 14px;
-  background: var(--ink);
-  color: var(--bg);
-  font-size: 15px;
-  font-weight: 500;
-  animation: pop 600ms var(--ease) 1400ms both, float 6s ease-in-out 2s infinite;
 }
 
-.stage__dot {
+.widget__dot {
   width: 10px;
   height: 10px;
   border-radius: 50%;
   background: var(--ok);
 }
 
-/* ---------- Dispositivos de Alfred (fragmentos de interfaz) ---------- */
+.widget--1 {
+  left: calc(50% - 400px);
+  top: 170px;
+  animation: pop 800ms var(--spring) 1500ms both, bob 7s ease-in-out 2.4s infinite;
+}
 
-.phone {
+.widget--2 {
+  right: calc(50% - 410px);
+  top: 330px;
+  animation: pop 800ms var(--spring) 1750ms both, bob 7s ease-in-out 3s infinite;
+}
+
+.widget--3 {
+  left: calc(50% - 360px);
+  top: 470px;
+  animation: pop 800ms var(--spring) 2000ms both, bob 8s ease-in-out 3.4s infinite;
+}
+
+/* ---------- Celular dibujado en CSS ---------- */
+
+.device {
   position: relative;
-  width: 270px;
-  height: 560px;
-  border-radius: 42px;
-  background: #070b10;
-  outline: 8px solid #3a4a62;
-  outline-offset: -8px;
+  width: 300px;
+  height: 624px;
+  padding: 11px;
+  border-radius: 58px;
+  background: linear-gradient(140deg, #5b6677, #232b36 18%, #0b0f15 48%, #1b222c 76%, #6a7586); /* taste-skill-ignore: marco metálico del celular */
+  box-shadow:
+    inset 0 0 0 1.5px #8693a5,
+    inset 0 0 0 4px #0b0f15,
+    0 60px 120px rgb(0 0 0 / 0.6),
+    0 24px 48px rgb(0 0 0 / 0.4); /* taste-skill-ignore: canto y sombra del celular */
+}
+
+.device__button {
+  position: absolute;
+  width: 4px;
+  border-radius: 2px;
+  background: #5d6878;
+}
+
+.device__button--1 {
+  left: -3px;
+  top: 138px;
+  height: 34px;
+}
+
+.device__button--2 {
+  left: -3px;
+  top: 188px;
+  height: 62px;
+}
+
+.device__button--3 {
+  left: -3px;
+  top: 262px;
+  height: 62px;
+}
+
+.device__button--4 {
+  right: -3px;
+  top: 206px;
+  height: 96px;
+}
+
+.device__screen {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 47px;
   overflow: hidden;
-}
-
-.phone__notch {
-  position: absolute;
-  top: 10px;
-  left: calc(50% - 42px);
-  z-index: 5;
-  width: 84px;
-  height: 22px;
-  border-radius: 12px;
-  background: #000;
-}
-
-.screen {
-  position: absolute;
-  inset: 0;
-  padding: 46px 22px 22px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  background: #f6f7f9;
+  background: #f4f5f7;
   color: var(--bg);
-  font-size: 14px;
+  text-align: left;
 }
 
-.screen--dark {
+.device__screen--dark {
   background: var(--bg);
   color: var(--ink);
 }
 
-.screen--center {
+.device__island {
+  position: absolute;
+  top: 11px;
+  left: calc(50% - 48px);
+  z-index: 6;
+  width: 96px;
+  height: 28px;
+  border-radius: 16px;
+  background: #000;
+}
+
+.device__home {
+  position: absolute;
+  bottom: 8px;
+  left: calc(50% - 55px);
+  z-index: 6;
+  width: 110px;
+  height: 4px;
+  border-radius: 3px;
+  background: currentColor;
+  opacity: 0.85;
+}
+
+.device__glare {
+  position: absolute;
+  inset: 0;
+  z-index: 7;
+  border-radius: 47px;
+  pointer-events: none;
+  background: linear-gradient(118deg, rgb(255 255 255 / 0.22), rgb(255 255 255 / 0.06) 22%, transparent 40%); /* taste-skill-ignore: reflejo de la pantalla */
+}
+
+.app {
+  position: absolute;
+  inset: 0;
+  padding: 54px 18px 26px;
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+  font-size: 14px;
+}
+
+.app--center {
   align-items: center;
   text-align: center;
 }
@@ -382,7 +475,7 @@
 }
 
 .home .app__title {
-  font-size: 20px;
+  font-size: 21px;
   font-weight: 400;
 }
 
@@ -403,7 +496,7 @@
   align-items: center;
   gap: 8px;
   padding: 12px;
-  border-radius: 12px;
+  border-radius: 16px;
   background: #ffffff;
 }
 
@@ -417,10 +510,10 @@
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  background: var(--bg);
-  color: #ffffff;
   display: grid;
   place-items: center;
+  background: var(--bg);
+  color: #ffffff;
   font-size: 18px;
 }
 
@@ -434,29 +527,35 @@
   font-weight: 600;
 }
 
-.app__pill {
-  width: 100%;
-  margin-top: auto;
-  padding: 14px;
-  border-radius: 999px;
-  background: var(--coral);
-  color: var(--bg);
-  text-align: center;
-  font-weight: 600;
-}
-
 .app__foot {
   margin-top: auto;
   text-align: center;
 }
 
 .home .app__amount {
-  font-size: 26px;
+  font-size: 28px;
   font-weight: 400;
 }
 
 .qr {
-  margin-top: 12px;
+  margin-top: 16px;
+  border-radius: 12px;
+}
+
+/* Hoja de vidrio dentro de la app */
+.app__sheet {
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  bottom: 22px;
+  z-index: 5;
+  padding: 14px 16px;
+  border-radius: 26px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 600;
 }
 
 .ticket {
@@ -464,12 +563,16 @@
   flex-direction: column;
   gap: 6px;
   padding: 14px;
-  border-radius: 12px;
+  border-radius: 16px;
   background: var(--surface);
 }
 
 .ticket--dim {
-  opacity: 0.6;
+  opacity: 0.65;
+}
+
+.ticket--dimmer {
+  opacity: 0.45;
 }
 
 .tag {
@@ -482,49 +585,11 @@
   font-weight: 600;
 }
 
-.tablet {
-  width: 440px;
-  height: 300px;
-  padding: 24px;
-  border-radius: 24px;
-  background: #070b10;
-  outline: 8px solid #3a4a62;
-  outline-offset: -8px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.tablet__cols {
-  flex: 1;
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 10px;
-}
-
-.mini {
-  padding: 10px;
-  border-radius: 10px;
-  background: var(--surface);
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  font-size: 13px;
-  color: var(--soft);
-}
-
-.mini b {
-  font-family: var(--display);
-  font-weight: 400;
-  font-size: 15px;
-  text-transform: uppercase;
-  color: var(--ink);
-}
-
 /* ---------- Cinta de servicios ---------- */
 
 .ticker {
   overflow: hidden;
+  margin-top: 40px;
   padding: 28px 0;
   background: var(--surface);
 }
@@ -548,6 +613,7 @@
 
 .home .ticker__item {
   font-size: clamp(28px, 3.4vw, 48px);
+  font-weight: 200;
   white-space: nowrap;
 }
 
@@ -563,20 +629,85 @@
   background: var(--coral);
 }
 
-/* ---------- Frase que se ilumina ---------- */
+/* ---------- Párrafo con frases que se encienden ---------- */
 
-.statement {
-  padding-block: 160px;
+.highlights {
+  padding-block: 170px 150px;
 }
 
-.statement__text {
-  max-width: 1100px;
-  font-family: var(--display);
-  font-size: clamp(34px, 4.6vw, 68px);
-  font-weight: 200;
-  line-height: 1.12;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
+.highlights p {
+  max-width: 30ch;
+  margin-inline: auto;
+  font-size: clamp(28px, 3.2vw, 46px);
+  font-weight: 500;
+  line-height: 1.22;
+  letter-spacing: -0.01em;
+  color: var(--dim);
+}
+
+/* ---------- Alfred gira de canto a frente ---------- */
+
+.spin {
+  position: relative;
+  height: 1800px;
+}
+
+.spin__pin {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  min-height: 700px;
+  max-width: 1200px;
+  margin-inline: auto;
+  padding-inline: var(--m);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: center;
+  gap: 40px;
+  perspective: 1800px;
+}
+
+.spin__copy {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 18px;
+}
+
+.spin__device {
+  justify-self: center;
+  transform-style: preserve-3d;
+}
+
+.spin__chips {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.chip {
+  position: absolute;
+  padding: 12px 18px;
+  border-radius: 999px;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.chip--1 {
+  right: calc(50% + 40px);
+  top: 16%;
+}
+
+.chip--2 {
+  right: 0;
+  top: 58%;
+}
+
+.chip--3 {
+  right: calc(50% + 20px);
+  top: 84%;
 }
 
 /* ---------- Secciones ---------- */
@@ -604,113 +735,152 @@
   color: var(--soft);
 }
 
-#servicios {
-  padding-top: 0;
-}
-
-/* Acordeón de servicios */
-.acc {
-  margin-bottom: 10px;
-  border-radius: 28px;
-  background: var(--surface);
-  scroll-margin-top: 110px;
-  transition: background-color 300ms ease;
-}
-
-.acc.is-open {
-  background: var(--surface-2);
-}
-
-.acc__button {
-  width: 100%;
+/* Recorrido con control segmentado */
+.tour {
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   align-items: center;
-  gap: 24px;
-  padding: 28px 32px;
+  gap: 64px;
+}
+
+.tour__copy {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.segmented {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-top: 8px;
+  padding: 5px;
+  border-radius: 999px;
+}
+
+.segmented__thumb {
+  position: absolute;
+  top: 5px;
+  bottom: 5px;
+  left: 5px;
+  width: calc((100% - 10px) / 4);
+  border-radius: 999px;
+  background: rgb(255 255 255 / 0.92);
+  transition: transform 520ms var(--spring);
+}
+
+.segmented__option {
+  position: relative;
+  z-index: 1;
+  min-height: 46px;
   border: 0;
   background: none;
   color: var(--ink);
-  text-align: left;
-  cursor: pointer;
-}
-
-.acc__icon {
-  color: var(--data);
-}
-
-.acc__label {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.acc__name {
-  font-family: var(--display);
-  font-size: clamp(24px, 2.6vw, 36px);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  font-weight: 300;
-}
-
-.acc__detail {
   font-size: 14px;
-  color: var(--soft);
+  cursor: pointer;
+  transition: color 300ms ease;
 }
 
-.acc__toggle {
-  width: 52px;
-  height: 52px;
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-  background: var(--surface-3);
-  transition: transform 400ms var(--ease), background-color 300ms ease, color 300ms ease;
-}
-
-.acc.is-open .acc__toggle {
-  transform: rotate(45deg);
-  background: var(--coral);
+.segmented__option[aria-selected="true"] {
   color: var(--bg);
 }
 
-.acc__panel {
-  display: grid;
-  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
-  gap: 40px;
-  padding: 0 32px 36px 108px;
+.tour__step {
+  min-height: 120px;
+  margin-top: 12px;
   animation: fade-up 500ms var(--ease) both;
 }
 
-.acc__panel p {
+.home .tour__title {
+  margin-bottom: 8px !important;
+  font-size: 30px;
+}
+
+.tour__step p {
+  max-width: 34ch;
   font-size: 19px;
   color: var(--soft);
 }
 
-.acc__examples {
+.tour__device {
+  position: relative;
+  display: grid;
+  place-items: center;
+}
+
+.tour__device .glow {
+  top: 40px;
+}
+
+.tour__screen {
+  position: absolute;
+  inset: 0;
+  animation: screen-in 420ms var(--ease) both;
+}
+
+/* Servicios en tarjetas de vidrio */
+.services__grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.services__backdrop {
+  position: absolute;
+  top: -60px;
+  left: 0;
+  right: 0;
+  font-family: var(--display);
+  font-size: clamp(120px, 16vw, 230px);
+  font-weight: 200;
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  text-align: center;
+  white-space: nowrap;
+  color: var(--surface-2);
+  pointer-events: none;
+}
+
+.service {
   display: flex;
-  flex-wrap: wrap;
-  align-content: flex-start;
-  gap: 8px;
-  list-style: none;
+  flex-direction: column;
+  gap: 14px;
+  padding: 32px;
+  border-radius: 32px;
+  scroll-margin-top: 110px;
+  transition: transform 400ms var(--spring);
 }
 
-.acc__examples li {
-  padding: 10px 16px;
-  border-radius: 999px;
-  background: var(--bg);
-  font-size: 14px;
+.service:hover {
+  transform: translateY(-6px);
 }
 
-.audiences {
-  margin-top: 40px !important;
-  font-size: 20px;
+.service__icon {
+  color: var(--data);
+}
+
+.home .service__name {
+  font-size: 28px;
+}
+
+.service p {
   color: var(--soft);
 }
 
-.audiences__label {
-  margin-right: 14px;
-  color: var(--data);
+.service__examples {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: auto !important;
+  list-style: none;
+}
+
+.service__examples li {
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgb(14 20 28 / 0.55);
+  font-size: 14px;
 }
 
 /* Cómo trabajamos */
@@ -753,64 +923,9 @@
   color: var(--soft);
 }
 
-/* Alfred contado paso a paso, con el teléfono fijo */
-.alfred__intro {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
-.home .alfred__title {
-  font-size: clamp(56px, 8vw, 120px);
-  font-weight: 200;
-}
-
-.story {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: 64px;
-}
-
-.story__steps {
-  list-style: none;
-}
-
-.story__step {
-  min-height: 520px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 18px;
-}
-
-.home .story__title {
-  font-size: clamp(30px, 3.4vw, 48px);
-}
-
-.story__step p {
-  max-width: 34ch;
-  font-size: 20px;
-  color: var(--soft);
-}
-
-.story__sticky {
-  position: sticky;
-  top: 110px;
-  height: 600px;
-  display: grid;
-  place-items: center;
-}
-
-/* Sin scroll-driven animations solo se ve la primera pantalla. */
-.screen--2,
-.screen--3,
-.screen--4 {
-  visibility: hidden;
-}
-
 /* Solicitud en tres pasos */
 .brief {
+  position: relative;
   display: grid;
   grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
   align-items: start;
@@ -826,7 +941,6 @@
 .brief__card {
   padding: 40px;
   border-radius: 32px;
-  background: var(--bg);
   display: flex;
   flex-direction: column;
   gap: 28px;
@@ -864,7 +978,7 @@
   font-size: clamp(24px, 2.4vw, 32px);
   font-weight: 300;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.05em;
 }
 
 .brief__step {
@@ -885,17 +999,17 @@
   padding: 16px 20px;
   border: 0;
   border-radius: 18px;
-  background: var(--surface-2);
+  background: rgb(255 255 255 / 0.06);
   color: var(--ink);
   text-align: left;
   font-size: 17px;
   cursor: pointer;
-  transition: background-color 200ms ease, transform 200ms var(--ease);
+  transition: background-color 200ms ease, transform 300ms var(--spring);
 }
 
 .brief__option:hover {
-  background: var(--surface-3);
-  transform: translateY(-2px);
+  background: rgb(255 255 255 / 0.12);
+  transform: scale(1.02);
 }
 
 .brief__option[aria-pressed="true"] {
@@ -906,7 +1020,7 @@
 .brief__message {
   padding: 20px;
   border-radius: 18px;
-  background: var(--surface-2);
+  background: rgb(14 20 28 / 0.6);
   color: var(--soft);
 }
 
@@ -952,22 +1066,36 @@
   font-weight: 600;
 }
 
-/* Cierre */
+/* Cierre en tarjeta de vidrio */
 .closing {
-  padding-block: 120px 140px;
+  position: relative;
+  padding-block: 120px 160px;
+  display: grid;
+  place-items: center;
+}
+
+.closing .glow {
+  top: 60px;
+}
+
+.closing__card {
+  width: 100%;
+  max-width: 820px;
+  padding: 64px 48px;
+  border-radius: 44px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 28px;
+  gap: 22px;
   text-align: center;
 }
 
 .home .closing__title {
-  font-size: clamp(40px, 6vw, 96px);
+  font-size: clamp(40px, 5.4vw, 80px);
   font-weight: 200;
 }
 
-.closing .actions {
+.closing__card .actions {
   justify-content: center;
 }
 
@@ -1015,7 +1143,7 @@
   color: var(--soft);
 }
 
-/* Botón flotante de WhatsApp */
+/* Botón flotante de WhatsApp, en vidrio */
 .home .whatsapp-float {
   position: fixed;
   right: 24px;
@@ -1026,56 +1154,48 @@
   border-radius: 50%;
   display: grid;
   place-items: center;
-  background: var(--ok);
-  color: #ffffff;
-  transition: transform 200ms var(--ease);
+  color: var(--ink);
+  transition: transform 300ms var(--spring);
 }
 
 .home .whatsapp-float:hover {
-  color: #ffffff;
-  transform: scale(1.08);
-}
-
-.whatsapp-float::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  border: 2px solid var(--ok);
-  animation: ring 2.4s ease-out infinite;
+  color: var(--ink);
+  transform: scale(1.1);
 }
 
 /* ---------- Animaciones ---------- */
 
-@keyframes mask-rise {
-  from {
-    transform: translateY(105%);
-  }
-}
-
 @keyframes fade-up {
   from {
     opacity: 0;
-    transform: translateY(24px);
+    transform: translateY(28px);
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(260px) scale(0.86);
   }
 }
 
 @keyframes pop {
   from {
     opacity: 0;
-    transform: scale(0.8) translateY(10px);
+    transform: scale(0.7) translateY(20px);
   }
 }
 
-@keyframes float {
+@keyframes bob {
   50% {
-    transform: translateY(-14px);
+    translate: 0 -12px;
   }
 }
 
-@keyframes scan {
-  to {
-    transform: translateY(980px);
+@keyframes screen-in {
+  from {
+    opacity: 0;
+    transform: scale(0.97);
   }
 }
 
@@ -1085,87 +1205,106 @@
   }
 }
 
-@keyframes ring {
-  from {
-    transform: scale(1);
-    opacity: 0.8;
-  }
-
-  to {
-    transform: scale(1.6);
-    opacity: 0;
-  }
-}
-
-/* Ligadas al scroll: Chrome y Edge. En otros navegadores todo queda visible y quieto. */
+/* Ligadas al scroll: Chrome y Edge. En otros navegadores todo queda visible, de frente y quieto. */
 @supports (animation-timeline: view()) {
   .topnav {
-    animation: nav-compact linear both;
+    animation: nav-settle linear both;
     animation-timeline: scroll();
-    animation-range: 0 260px;
+    animation-range: 0 300px;
   }
 
-  @keyframes nav-compact {
+  @keyframes nav-settle {
     to {
-      max-width: 860px;
-      background: rgb(14 20 28 / 0.92);
+      max-width: 900px;
+      background: rgb(14 20 28 / 0.6);
     }
   }
 
-  .stage__front {
-    animation: drift-far linear both;
+  /* El celular del hero se inclina y se acerca al bajar. */
+  .stage__tilt {
+    animation: tilt linear both;
     animation-timeline: scroll();
     animation-range: 0 900px;
   }
 
-  .stage__back {
-    animation: drift-near linear both;
-    animation-timeline: scroll();
-    animation-range: 0 900px;
-  }
-
-  @keyframes drift-far {
+  @keyframes tilt {
     to {
-      transform: translateY(-120px);
-    }
-  }
-
-  @keyframes drift-near {
-    to {
-      transform: translateY(-40px);
+      transform: rotateX(14deg) scale(1.08) translateY(-30px);
     }
   }
 
   .reveal {
     animation: reveal linear both;
     animation-timeline: view();
-    animation-range: entry 0% entry 70%;
+    animation-range: entry 0% entry 65%;
   }
 
   @keyframes reveal {
     from {
       opacity: 0;
-      transform: translateY(40px);
+      transform: translateY(48px) scale(0.98);
     }
   }
 
-  /* La frase se ilumina línea a línea al bajar. */
-  .statement__text span {
-    color: transparent;
-    background: linear-gradient(90deg, var(--ink) 50%, #3a4a62 50%); /* taste-skill-ignore: relleno de texto ligado al scroll */
-    background-size: 200% 100%;
-    background-position: 100% 0;
-    background-clip: text;
-    -webkit-background-clip: text;
-    animation: text-fill linear both;
+  /* Las frases clave se encienden al pasar por el centro. */
+  .hl {
+    animation: highlight linear both;
     animation-timeline: view();
-    animation-range: cover 20% cover 60%;
+    animation-range: cover 30% cover 45%;
   }
 
-  @keyframes text-fill {
+  @keyframes highlight {
     to {
-      background-position: 0 0;
+      color: var(--ink);
     }
+  }
+
+  /* De canto a frente. */
+  .spin {
+    view-timeline-name: --spin;
+  }
+
+  .spin__device {
+    animation: spin linear both;
+    animation-timeline: --spin;
+    animation-range: contain 0% contain 55%;
+  }
+
+  @keyframes spin {
+    from {
+      transform: rotateY(86deg) rotateX(6deg) scale(0.82);
+    }
+
+    60% {
+      transform: rotateY(24deg) rotateX(4deg) scale(0.95);
+    }
+
+    to {
+      transform: none;
+    }
+  }
+
+  .spin__copy {
+    animation: fade-up linear both;
+    animation-timeline: --spin;
+    animation-range: contain 30% contain 55%;
+  }
+
+  .chip {
+    animation: pop linear both;
+    animation-timeline: --spin;
+  }
+
+  .chip--1 {
+    animation-range: contain 50% contain 62%;
+  }
+
+  .chip--2 {
+    animation-range: contain 56% contain 68%;
+  }
+
+  .chip--3 {
+    animation-range: contain 62% contain 74%;
   }
 
   .process {
@@ -1183,96 +1322,6 @@
       transform: scaleX(0);
     }
   }
-
-  /* Cada paso de Alfred enciende su pantalla en el teléfono fijo. */
-  .story {
-    timeline-scope: --s1, --s2, --s3, --s4;
-  }
-
-  .story__step--1 {
-    view-timeline-name: --s1;
-  }
-
-  .story__step--2 {
-    view-timeline-name: --s2;
-  }
-
-  .story__step--3 {
-    view-timeline-name: --s3;
-  }
-
-  .story__step--4 {
-    view-timeline-name: --s4;
-  }
-
-  .story__step {
-    animation: step-focus linear both;
-    animation-timeline: view();
-    animation-range: cover 15% cover 85%;
-  }
-
-  @keyframes step-focus {
-    0%,
-    100% {
-      opacity: 0.25;
-    }
-
-    30%,
-    70% {
-      opacity: 1;
-    }
-  }
-
-  .screen--2,
-  .screen--3,
-  .screen--4 {
-    visibility: visible;
-  }
-
-  .screen {
-    animation: screen-in linear both;
-    animation-range: cover 25% cover 75%;
-  }
-
-  .screen--1 {
-    animation-timeline: --s1;
-    animation-range: cover 0% cover 75%;
-  }
-
-  .screen--2 {
-    animation-timeline: --s2;
-  }
-
-  .screen--3 {
-    animation-timeline: --s3;
-  }
-
-  .screen--4 {
-    animation-timeline: --s4;
-    animation-range: cover 25% cover 100%;
-  }
-
-  @keyframes screen-in {
-    0% {
-      opacity: 0;
-      transform: translateY(24px) scale(0.98);
-    }
-
-    20%,
-    80% {
-      opacity: 1;
-      transform: none;
-    }
-
-    100% {
-      opacity: 0;
-    }
-  }
-
-  /* El teléfono del hero no participa del relato. */
-  .stage .screen {
-    animation: none;
-  }
 }
 
 /* ---------- Tableta y teléfono ---------- */
@@ -1282,46 +1331,47 @@
     display: none;
   }
 
-  .hero {
-    grid-template-columns: 1fr;
-    min-height: 0;
-    padding-top: 56px;
-  }
-
-  .stage {
-    height: 560px;
-  }
-
+  .tour,
   .brief,
   .faq {
     grid-template-columns: 1fr;
   }
 
-  .faq {
-    gap: 24px;
+  .services__grid {
+    grid-template-columns: 1fr;
   }
 
-  /* En pantallas angostas el teléfono queda fijo arriba y los pasos pasan por debajo. */
-  .story {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
+  .services__backdrop {
+    display: none;
   }
 
-  .story__sticky {
-    order: -1;
-    top: 76px;
-    z-index: 2;
-    height: 440px;
-    background: var(--bg);
+  .widget--1,
+  .widget--3 {
+    left: 0;
   }
 
-  .story__sticky .phone {
-    transform: scale(0.72);
+  .widget--2 {
+    right: 0;
   }
 
-  .story__step {
-    min-height: 380px;
+  .spin__pin {
+    grid-template-columns: 1fr;
+    align-content: center;
+    gap: 8px;
+  }
+
+  .spin__copy {
+    align-items: center;
+    text-align: center;
+  }
+
+  .spin__device {
+    scale: 0.62;
+    margin-block: -110px;
+  }
+
+  .spin__chips {
+    display: none;
   }
 }
 
@@ -1344,65 +1394,46 @@
     display: none;
   }
 
-  .home .hero__title {
-    font-size: 38px;
-  }
-
-  .stage {
-    height: 470px;
-    transform: scale(0.78);
-    transform-origin: top center;
-    margin-bottom: -100px;
-  }
-
-  .stage__back {
-    left: -40px;
-  }
-
-  .stage__front {
-    right: 0;
+  .hero {
+    padding-top: 72px;
   }
 
   .hero__actions .button {
     flex: 1 1 100%;
   }
 
-  .statement,
+  .stage {
+    height: 600px;
+    transform: scale(0.78);
+    transform-origin: top center;
+    margin-bottom: -130px;
+  }
+
+  .widget {
+    display: none;
+  }
+
+  .highlights,
   .section {
     padding-block: 96px;
   }
 
-  .acc__button {
-    grid-template-columns: minmax(0, 1fr) auto;
-    padding: 22px 24px;
-    gap: 16px;
+  .spin {
+    height: 1500px;
   }
 
-  .acc__icon {
-    display: none;
+  .spin__device {
+    scale: 0.56;
+    margin-block: -140px;
   }
 
-  .acc__panel {
-    grid-template-columns: 1fr;
-    gap: 20px;
-    padding: 0 24px 28px;
+  .tour__device .device {
+    scale: 0.86;
   }
 
   .process__steps,
   .brief__options {
     grid-template-columns: 1fr;
-  }
-
-  .story__step {
-    min-height: 340px;
-  }
-
-  .story__sticky {
-    height: 370px;
-  }
-
-  .story__sticky .phone {
-    transform: scale(0.6);
   }
 
   .brief__card {
@@ -1411,6 +1442,10 @@
 
   .faq__text {
     columns: 1;
+  }
+
+  .closing__card {
+    padding: 44px 22px;
   }
 
   .footer__links {
@@ -1426,14 +1461,7 @@
     transition: none !important;
   }
 
-  .home .statement__text span {
+  .home .hl {
     color: var(--ink);
-    background: none;
-  }
-
-  .home .screen--2,
-  .home .screen--3,
-  .home .screen--4 {
-    visibility: hidden;
   }
 }

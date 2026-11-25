@@ -14,7 +14,7 @@ export function BriefWizard() {
   const message = `Hola, NexFlow Labs. Necesito: ${answers.need ?? ""}. Plazo: ${answers.when ?? ""}. Somos: ${answers.who ?? ""}.`;
 
   return (
-    <div className="brief__card reveal">
+    <div className="brief__card glass reveal">
       <div className="brief__bars" aria-hidden="true">
         {briefQuestions.map((item, index) => (
           <span key={item.key} className={index < step ? "is-on" : undefined} />
