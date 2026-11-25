@@ -23,13 +23,6 @@ export const whatsappHref = `https://wa.me/573152466020?text=${encodeURIComponen
 
 export const alfredHref = "https://alfred.nexflowlabs.co/";
 
-export const navigation = [
-  { label: "Servicios", href: "#servicios" },
-  { label: "Alfred", href: "#alfred" },
-  { label: "Preguntas", href: "#preguntas" },
-  { label: "Contacto", href: "#contacto" },
-] as const;
-
 export const services = [
   {
     slug: "web",
@@ -59,14 +52,47 @@ export const services = [
 
 export const audiences = ["Pymes y negocios locales", "Empresas medianas", "Emprendedores y startups"] as const;
 
-// Funciones tal como las publica alfred.nexflowlabs.co.
-export const alfredFeatures = [
-  ["Carta con IA", "Se importa desde una foto, un PDF o texto."],
-  ["Pantalla de cocina", "Los pedidos llegan en vivo con el número de mesa."],
-  ["Cobro con QR", "Bre-B o Nequi, sin datáfono."],
-  ["Domicilios por WhatsApp", "Con Speedy, su agente de pedidos."],
-  ["Reportes", "Ventas y platos, exportables en CSV."],
-  ["Español e inglés", "La carta se ve en el idioma del cliente."],
+export const navigation = [
+  { label: "Servicios", href: "#servicios" },
+  { label: "Cómo trabajamos", href: "#como-trabajamos" },
+  { label: "Alfred", href: "#alfred" },
+  { label: "Contacto", href: "#solicitud" },
+] as const;
+
+export const ticker = [
+  "Sitios web",
+  "Landing pages",
+  "Aplicaciones web",
+  "Aplicaciones móviles",
+  "Paneles de administración",
+  "Mantenimiento",
+  "Soporte técnico",
+] as const;
+
+export const workSteps = [
+  { when: "Primero", name: "Conversamos", text: "Nos cuenta qué necesita y entendemos cómo funciona su negocio." },
+  { when: "Después", name: "Construimos", text: "Diseñamos y desarrollamos, mostrándole avances para ajustar a tiempo." },
+  { when: "Siempre", name: "Acompañamos", text: "Publicamos y le damos soporte cuando lo necesite." },
+] as const;
+
+// Recorrido de un pedido en Alfred, según alfred.nexflowlabs.co. Platos y precios de las pantallas son de ejemplo.
+export const alfredStory = [
+  { label: "Carta con IA", title: "Suba su carta", text: "Con una foto, un PDF o el texto, Alfred arma la carta digital." },
+  { label: "Pedido desde la mesa", title: "El cliente pide", text: "Escanea el QR de su mesa y pide desde el celular, sin descargar nada." },
+  { label: "Pantalla de cocina", title: "Llega a cocina", text: "El pedido aparece en vivo con el número de mesa." },
+  { label: "Cobro con QR", title: "Paga sin datáfono", text: "Con Bre-B o Nequi." },
+] as const;
+
+export const sampleDishes = [
+  { qty: 2, name: "Hamburguesa de la casa", price: 28000 },
+  { qty: 1, name: "Papas rústicas", price: 12000 },
+  { qty: 2, name: "Limonada de coco", price: 9000 },
+] as const;
+
+export const briefQuestions = [
+  { key: "need", question: "¿Qué necesita?", options: ["Un sitio web", "Una aplicación", "Soporte técnico", "Aún no lo sé"] },
+  { key: "when", question: "¿Para cuándo?", options: ["Lo antes posible", "En 1 a 3 meses", "Sin fecha todavía"] },
+  { key: "who", question: "¿Su negocio es…?", options: ["Pyme o negocio local", "Empresa mediana", "Emprendimiento o startup"] },
 ] as const;
 
 export const faqs = [

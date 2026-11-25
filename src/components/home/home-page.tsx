@@ -1,166 +1,347 @@
-import Link from "next/link";
-import type { CSSProperties } from "react";
-import { OrderTicket } from "@/components/home/order-ticket";
-import { Reveal } from "@/components/home/reveal";
+import { BriefWizard } from "@/components/home/brief-wizard";
+import { ServiceAccordion } from "@/components/home/service-accordion";
 import {
-  alfredFeatures,
   alfredHref,
+  alfredStory,
   audiences,
   contactEmail,
-  contactHref,
   faqs,
   location,
   navigation,
-  services,
+  sampleDishes,
   supportEmail,
+  ticker,
   whatsappHref,
   whatsappNumber,
+  workSteps,
 } from "@/data/home";
 
-const delay = (index: number) => ({ "--i": index }) as CSSProperties;
+const cop = (value: number) => `$${value.toLocaleString("es-CO")}`;
+const sampleTotal = sampleDishes.reduce((sum, dish) => sum + dish.qty * dish.price, 0);
 
-function Icon({ path, size = 36 }: { path: string; size?: number }) {
+function Nav() {
   return (
-    <svg className="tile__icon" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <path d={path} />
-    </svg>
-  );
-}
-
-function Header() {
-  return (
-    <header className="topbar">
-      <Link className="wordmark" href="/" aria-label="NexFlow Labs, inicio">
+    <nav className="topnav" aria-label="Navegación principal">
+      <a className="wordmark" href="#inicio" aria-label="NexFlow Labs, inicio">
         NexFlow Labs
-      </Link>
-      <nav className="nav" aria-label="Navegación principal">
+      </a>
+      <div className="topnav__links">
         {navigation.map((item) => (
           <a key={item.href} href={item.href}>
             {item.label}
           </a>
         ))}
-        <a className="button button--small" href={contactHref}>
-          Cuéntenos su proyecto
-        </a>
-      </nav>
-    </header>
+      </div>
+      <a className="button button--small" href="#solicitud">
+        Cuéntenos<span className="topnav__more">&nbsp;su proyecto</span>
+      </a>
+    </nav>
+  );
+}
+
+// Pantallas de Alfred dibujadas en HTML. Platos y precios son de ejemplo.
+function MenuScreen({ note }: { note: string }) {
+  return (
+    <>
+      <div className="app__head">
+        <span className="app__title">Carta</span>
+        <span className="app__meta">{note}</span>
+      </div>
+      {sampleDishes.map((dish) => (
+        <div className="app__dish" key={dish.name}>
+          <span>
+            <b>{dish.name}</b>
+            <span className="app__meta">{cop(dish.price)}</span>
+          </span>
+          <span className="app__add">+</span>
+        </div>
+      ))}
+    </>
   );
 }
 
 function Hero() {
   return (
-    <section className="hero" aria-labelledby="hero-title">
-      <p className="hero__kicker">Desarrollo web, aplicaciones y soporte técnico</p>
-      <h1 className="hero__title" id="hero-title">
-        <span className="mask">
-          <span>Construimos su software</span>
-        </span>
-      </h1>
-      <p className="hero__lead">
-        Sitios web, aplicaciones y soporte para pymes, empresas medianas y startups. Le ayudamos a vender más y a
-        trabajar con menos trámites.
-      </p>
-      <div className="hero__actions">
-        <a className="button" href={contactHref}>
-          Cuéntenos su proyecto
-        </a>
-        <a className="button button--ghost" href={whatsappHref}>
-          Escribir por WhatsApp
-        </a>
+    <header className="hero" id="inicio">
+      <div className="hero__grid" aria-hidden="true">
+        <span className="hero__scan" />
       </div>
-
-      <div className="picker">
-        <h2 className="picker__title">¿Qué necesita?</h2>
-        <div className="picker__grid picker__grid--3">
-          {services.map((item, index) => (
-            <a className="tile" href={`#servicio-${item.slug}`} key={item.slug} style={delay(index)}>
-              <Icon path={item.icon} />
-              <span className="tile__name">{item.name}</span>
-              <span className="tile__detail">{item.detail}</span>
-            </a>
-          ))}
+      <div className="hero__copy">
+        <p className="hero__kicker">Desarrollo web · Aplicaciones · Soporte técnico</p>
+        <h1 className="hero__title">
+          <span className="mask">
+            <span>Construimos</span>
+          </span>
+          <span className="mask mask--2">
+            <span>su software</span>
+          </span>
+        </h1>
+        <p className="hero__lead">
+          Sitios web, aplicaciones y soporte para pymes, empresas medianas y startups. Desde {location}.
+        </p>
+        <div className="actions hero__actions">
+          <a className="button" href="#solicitud">
+            Cuéntenos su proyecto
+          </a>
+          <a className="button button--ghost" href="#alfred">
+            Ver Alfred en acción
+          </a>
         </div>
       </div>
+
+      <div className="stage" role="img" aria-label="Alfred, la carta QR de NexFlow Labs, en un teléfono y en la pantalla de cocina">
+        <div className="stage__back">
+          <div className="float float--late">
+            <div className="tablet">
+              <div className="app__head">
+                <span className="app__title">Cocina</span>
+                <span className="app__live">En vivo</span>
+              </div>
+              <div className="tablet__cols">
+                <div className="mini">
+                  <b>Mesa 4</b>
+                  <span>2 × Hamburguesa</span>
+                  <span>1 × Papas</span>
+                  <span className="tag">Nuevo</span>
+                </div>
+                <div className="mini">
+                  <b>Mesa 7</b>
+                  <span>3 × Limonada</span>
+                </div>
+                <div className="mini">
+                  <b>Barra</b>
+                  <span>2 × Café</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="stage__front">
+          <div className="float">
+            <div className="phone">
+              <span className="phone__notch" />
+              <div className="screen">
+                <MenuScreen note="Mesa 4" />
+                <span className="app__pill">Pedir · {cop(sampleTotal)}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="stage__chip">
+          <span className="stage__dot" />
+          Pedido enviado a cocina
+        </div>
+      </div>
+    </header>
+  );
+}
+
+function Ticker() {
+  const items = [...ticker, ...ticker];
+  return (
+    <div className="ticker">
+      <p className="sr-only">Servicios: {ticker.join(", ")}.</p>
+      <div className="ticker__track" aria-hidden="true">
+        {items.map((label, index) => (
+          <span key={`${label}-${index}`} className="ticker__group">
+            <span className={index % 2 ? "ticker__item ticker__item--outline" : "ticker__item"}>{label}</span>
+            <span className="ticker__sep" />
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function Statement() {
+  return (
+    <section className="statement container" aria-label="Lo que hacemos por su negocio">
+      <p className="statement__text">
+        <span>
+          Hacemos que su negocio se vea, venda y funcione mejor con software hecho a su medida, y nos quedamos para que siga
+          funcionando.
+        </span>
+      </p>
     </section>
   );
 }
 
 function Services() {
   return (
-    <section className="band-section services" id="servicios" aria-labelledby="services-title">
-      <div className="container">
-        <h2 className="section-title" id="services-title" data-reveal>
+    <section className="section container" id="servicios" aria-labelledby="services-title">
+      <div className="section__head reveal">
+        <h2 className="section-title" id="services-title">
           Lo que hacemos
         </h2>
-        <ol className="services__list">
-          {services.map((item, index) => (
-            <li className="service" id={`servicio-${item.slug}`} key={item.slug} data-reveal style={delay(index + 1)}>
-              <h3 className="service__name">{item.name}</h3>
-              <p className="service__text">{item.text}</p>
-              <ul className="service__examples">
-                {item.examples.map((example) => (
-                  <li key={example}>{example}</li>
-                ))}
-              </ul>
+        <p className="section__sub">Abra cada servicio para ver qué incluye.</p>
+      </div>
+      <ServiceAccordion />
+      <p className="audiences reveal">
+        <span className="audiences__label">Para</span>
+        {audiences.join(" · ")}
+      </p>
+    </section>
+  );
+}
+
+function Process() {
+  return (
+    <section className="band" id="como-trabajamos" aria-labelledby="process-title">
+      <div className="section container process">
+        <div className="section__head reveal">
+          <h2 className="section-title" id="process-title">
+            Cómo trabajamos
+          </h2>
+          <p className="section__sub">Tres pasos, con usted al tanto en cada uno.</p>
+        </div>
+        <div className="process__track" aria-hidden="true">
+          <span className="process__line" />
+        </div>
+        <ol className="process__steps">
+          {workSteps.map((step) => (
+            <li className="process__step reveal" key={step.name}>
+              <span className="process__when">{step.when}</span>
+              <h3 className="process__name">{step.name}</h3>
+              <p>{step.text}</p>
             </li>
           ))}
         </ol>
-        <p className="audiences" data-reveal>
-          <span className="audiences__label">Para</span>
-          {audiences.join(" · ")}
-        </p>
       </div>
     </section>
   );
 }
 
-function Alfred() {
+function AlfredStory() {
   return (
-    <section className="container alfred" id="alfred" aria-labelledby="alfred-title">
-      <div className="alfred__intro">
-        <p className="alfred__kicker" data-reveal>
-          Proyecto destacado
-        </p>
-        <h2 className="section-title" id="alfred-title" data-reveal style={delay(1)}>
-          Alfred
-        </h2>
-        <p className="alfred__lead" data-reveal style={delay(2)}>
-          La carta QR para restaurantes, cafés y bares. El cliente escanea el código de su mesa, pide desde el celular
-          sin descargar nada y el pedido llega a cocina con el número de mesa.
-        </p>
-        <a className="button" href={alfredHref} data-reveal style={delay(3)}>
-          Conocer Alfred
-        </a>
+    <section className="section container" id="alfred" aria-labelledby="alfred-title">
+      <div className="section__head reveal">
+        <div className="alfred__intro">
+          <span className="eyebrow">Proyecto destacado</span>
+          <h2 className="alfred__title" id="alfred-title">
+            Alfred
+          </h2>
+        </div>
+        <p className="section__sub">La carta QR para restaurantes, cafés y bares, hecha por NexFlow Labs. Así recorre un pedido.</p>
       </div>
-      <div data-reveal style={delay(2)}>
-        <OrderTicket />
+
+      <div className="story">
+        <ol className="story__steps">
+          {alfredStory.map((step, index) => (
+            <li className={`story__step story__step--${index + 1}`} key={step.title}>
+              <span className="eyebrow">{step.label}</span>
+              <h3 className="story__title">{step.title}</h3>
+              <p>{step.text}</p>
+              {index === alfredStory.length - 1 && (
+                <a className="button" href={alfredHref}>
+                  Conocer Alfred
+                </a>
+              )}
+            </li>
+          ))}
+        </ol>
+
+        <div className="story__sticky">
+          <div className="phone" role="img" aria-label="Pantallas de ejemplo de Alfred">
+            <span className="phone__notch" />
+            <div className="screen screen--1">
+              <MenuScreen note="Importada" />
+              <span className="app__meta app__foot">Carta de ejemplo</span>
+            </div>
+            <div className="screen screen--2">
+              <div className="app__head">
+                <span className="app__title">Su pedido</span>
+                <span className="app__meta">Mesa 4</span>
+              </div>
+              {sampleDishes.map((dish) => (
+                <div className="app__row" key={dish.name}>
+                  <span>
+                    {dish.qty} × {dish.name.split(" ")[0]}
+                  </span>
+                  <span>{cop(dish.qty * dish.price)}</span>
+                </div>
+              ))}
+              <div className="app__row app__row--total">
+                <span>Total</span>
+                <span>{cop(sampleTotal)}</span>
+              </div>
+              <span className="app__pill">Enviar a cocina</span>
+            </div>
+            <div className="screen screen--dark screen--3">
+              <div className="app__head">
+                <span className="app__title">Cocina</span>
+                <span className="app__live">En vivo</span>
+              </div>
+              <div className="ticket">
+                <span className="tag">Nuevo</span>
+                <b className="app__title">Mesa 4</b>
+                {sampleDishes.map((dish) => (
+                  <span key={dish.name}>
+                    {dish.qty} × {dish.name.split(" ")[0]}
+                  </span>
+                ))}
+              </div>
+              <div className="ticket ticket--dim">
+                <b className="app__title">Mesa 7</b>
+                <span>3 × Limonada</span>
+              </div>
+            </div>
+            <div className="screen screen--4 screen--center">
+              <div className="app__head">
+                <span className="app__title">Pagar</span>
+                <span className="app__meta">Mesa 4</span>
+              </div>
+              <svg className="qr" width="170" height="170" viewBox="0 0 29 29" aria-hidden="true">
+                <rect width="29" height="29" fill="#fff" />
+                <g fill="#0e141c">
+                  <path d="M1 1h7v7H1zM21 1h7v7h-7zM1 21h7v7H1z" />
+                  <path fill="#fff" d="M2 2h5v5H2zM22 2h5v5h-5zM2 22h5v5H2z" />
+                  <path d="M3 3h3v3H3zM23 3h3v3h-3zM3 23h3v3H3zM10 2h2v2h-2zM14 1h1v3h-1zM10 6h3v1h-3zM16 5h2v2h-2zM9 9h2v2H9zM13 9h4v1h-4zM19 9h2v3h-2zM24 10h3v1h-3zM2 10h4v1H2zM10 13h1v4h-1zM13 12h2v2h-2zM16 14h3v1h-3zM22 13h2v2h-2zM25 14h2v4h-2zM3 14h2v2H3zM6 16h2v1H6zM12 17h4v1h-4zM18 18h3v2h-3zM10 20h2v3h-2zM14 21h1v2h-1zM16 22h4v1h-4zM22 21h2v2h-2zM25 21h2v1h-2zM12 25h3v2h-3zM17 25h2v2h-2zM21 24h1v3h-1zM24 25h3v2h-3z" />
+                </g>
+              </svg>
+              <b className="app__amount">{cop(sampleTotal)}</b>
+              <span className="app__meta">Escanee con Bre-B o Nequi</span>
+              <span className="app__pill">Pagado</span>
+            </div>
+          </div>
+        </div>
       </div>
-      <ul className="alfred__features">
-        {alfredFeatures.map(([name, text], index) => (
-          <li key={name} data-reveal style={delay(index)}>
-            <span className="alfred__feature-name">{name}</span>
-            <span className="alfred__feature-text">{text}</span>
-          </li>
-        ))}
-      </ul>
+    </section>
+  );
+}
+
+function Brief() {
+  return (
+    <section className="band" id="solicitud" aria-labelledby="brief-title">
+      <div className="section container brief">
+        <div className="brief__intro reveal">
+          <h2 className="section-title" id="brief-title">
+            Arme su solicitud
+          </h2>
+          <p className="section__sub">
+            Tres preguntas y queda listo el mensaje. Lo envía usted por WhatsApp o por correo; aquí no guardamos nada.
+          </p>
+          <p className="note">
+            También puede escribirnos a <a href={`mailto:${contactEmail}`}>{contactEmail}</a> o al {whatsappNumber}.
+          </p>
+        </div>
+        <BriefWizard />
+      </div>
     </section>
   );
 }
 
 function Faq() {
   return (
-    <section className="band-section faq" id="preguntas" aria-labelledby="faq-title">
-      <div className="container faq__inner">
-        <h2 className="faq__title" id="faq-title" data-reveal>
-          Preguntas frecuentes
-        </h2>
-        <div className="faq__text" data-reveal style={delay(1)}>
-          {faqs.map(([question, answer]) => (
-            <p key={question}>
-              <strong>{question}</strong> {answer}
-            </p>
-          ))}
-        </div>
+    <section className="section container faq" id="preguntas" aria-labelledby="faq-title">
+      <h2 className="faq__title reveal" id="faq-title">
+        Preguntas frecuentes
+      </h2>
+      <div className="faq__text reveal">
+        {faqs.map(([question, answer]) => (
+          <p key={question}>
+            <strong>{question}</strong> {answer}
+          </p>
+        ))}
       </div>
     </section>
   );
@@ -168,23 +349,21 @@ function Faq() {
 
 function Closing() {
   return (
-    <section className="container closing" id="contacto" aria-labelledby="closing-title">
-      <h2 className="closing__title" id="closing-title" data-reveal>
+    <section className="closing container" id="contacto" aria-labelledby="closing-title">
+      <h2 className="closing__title reveal" id="closing-title">
         Hablemos de su proyecto
       </h2>
-      <p className="closing__statement" data-reveal style={delay(1)}>
-        Cuéntenos qué necesita y le respondemos con una propuesta.
-      </p>
-      <div className="hero__actions" data-reveal style={delay(2)}>
-        <a className="button" href={contactHref}>
-          Escribir un correo
+      <p className="section__sub reveal">Cuéntenos qué necesita y le respondemos con una propuesta.</p>
+      <div className="actions reveal">
+        <a className="button" href={`mailto:${contactEmail}`}>
+          {contactEmail}
         </a>
         <a className="button button--ghost" href={whatsappHref}>
           WhatsApp {whatsappNumber}
         </a>
       </div>
-      <p className="closing__notes" data-reveal style={delay(3)}>
-        <a href={`mailto:${contactEmail}`}>{contactEmail}</a> · Clientes: <a href={`mailto:${supportEmail}`}>{supportEmail}</a>
+      <p className="note reveal">
+        ¿Ya es cliente? <a href={`mailto:${supportEmail}`}>{supportEmail}</a>
       </p>
     </section>
   );
@@ -223,16 +402,25 @@ function Footer() {
 export function HomePage() {
   return (
     <div className="home">
+      <Nav />
       <main>
-        <Header />
         <Hero />
+        <Ticker />
+        <Statement />
         <Services />
-        <Alfred />
+        <Process />
+        <AlfredStory />
+        <Brief />
         <Faq />
         <Closing />
       </main>
       <Footer />
-      <Reveal />
+      <a className="whatsapp-float" href={whatsappHref} aria-label="Escribir a NexFlow Labs por WhatsApp">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+          <path d="M3 21l1.7-4.6A8.5 8.5 0 1 1 8 19.6z" />
+          <path d="M9 9.5c0 3 2.5 5.5 5.5 5.5l1-1.6-2-1-1 .8a4 4 0 0 1-2.2-2.2l.8-1-1-2z" />
+        </svg>
+      </a>
     </div>
   );
 }

@@ -20,13 +20,19 @@ Presentar a NexFlow Labs como empresa de desarrollo web, aplicaciones y soporte 
 
 ## Estructura de la home
 
-1. **Cabecera:** nombre en Elianto, navegación (Servicios, Alfred, Preguntas, Contacto) y botón de correo.
-2. **Hero:** "Construimos su software", con botones de correo y WhatsApp y tres tarjetas que llevan a cada servicio.
-3. **Servicios:** desarrollo web, aplicaciones y soporte técnico, y el público al que se dirigen.
-4. **Alfred:** qué es, una comanda de ejemplo interactiva (mesa → cocina → listo) y sus funciones según alfred.nexflowlabs.co.
-5. **Preguntas frecuentes.**
-6. **Contacto:** correo, WhatsApp y correo de soporte para clientes.
-7. **Pie:** razón social y ciudad, enlaces y créditos tipográficos.
+Patrones adaptados (nov 2026) de K3A Solutions, Zennovia y ToGrow; solo diseño y movimiento, sin su contenido, cifras ni formularios que guarden datos.
+
+1. **Barra flotante tipo píldora** que se compacta al bajar.
+2. **Hero:** "Construimos su software" sobre una cuadrícula de plano con línea de escaneo; Alfred en un teléfono y una pantalla de cocina que flotan.
+3. **Cinta de servicios** en movimiento continuo.
+4. **Frase** que se ilumina con el scroll.
+5. **Servicios en acordeón** y público.
+6. **Cómo trabajamos:** tres pasos con una línea que se llena.
+7. **Alfred:** cuatro pasos (carta, pedido, cocina, pago) con el teléfono fijo y la pantalla cambiando.
+8. **Arme su solicitud:** tres preguntas que arman un mensaje; el visitante lo envía por WhatsApp o correo.
+9. **Preguntas frecuentes, cierre, pie** y botón flotante de WhatsApp.
+
+Las animaciones ligadas al scroll usan CSS `animation-timeline` (Chrome y Edge); en otros navegadores el contenido queda visible y quieto.
 
 ## Arquitectura
 
@@ -34,7 +40,7 @@ Presentar a NexFlow Labs como empresa de desarrollo web, aplicaciones y soporte 
 Navegador
   └── Sitio Next.js (estático)
       ├── src/data/home.ts           contenido
-      ├── src/components/home/       secciones; order-ticket y reveal son de cliente
+      ├── src/components/home/       secciones; service-accordion y brief-wizard son de cliente
       └── CTA externos: mailto / wa.me / alfred.nexflowlabs.co
 ```
 

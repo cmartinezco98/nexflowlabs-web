@@ -1,4 +1,4 @@
-/* Base mínima; el diseño vive en home.css bajo .home. */
+﻿/* Base mÃ­nima; el diseÃ±o vive en home.css bajo .home. */
 
 :root {
   color-scheme: dark;
@@ -10,7 +10,7 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 80px;
+  scroll-padding-top: 100px;
   background: #0e141c;
 }
 
