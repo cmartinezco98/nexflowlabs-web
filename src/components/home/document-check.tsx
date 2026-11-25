@@ -103,9 +103,12 @@ export function DocumentCheck() {
         </article>
 
         <p className={`verdict${difference === 0 ? " verdict--ok" : " verdict--fail"}`} role="status">
-          {difference === 0
-            ? `Cuadra al peso. Neto a pagar ${cop(sums.net)}, listo para ${doc.destination}.`
-            : `No cuadra por ${cop(difference)}. No entra a ${doc.destination}: pasa a revisión de una persona.`}
+          {/* La key reinicia la animación de entrada; el <p role="status"> sigue montado para lectores de pantalla. */}
+          <span className="verdict__text" key={`${doc.id}-${difference === 0}`}>
+            {difference === 0
+              ? `Cuadra al peso. Neto a pagar ${cop(sums.net)}, listo para ${doc.destination}.`
+              : `No cuadra por ${cop(difference)}. No entra a ${doc.destination}: pasa a revisión de una persona.`}
+          </span>
         </p>
       </div>
     </div>

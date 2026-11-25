@@ -16,19 +16,19 @@ export const contactHref = `mailto:${contactEmail}?subject=${encodeURIComponent(
 )}&body=${encodeURIComponent(mailBody)}`;
 
 export const navigation = [
-  { label: "Módulos", href: "/modulos" },
-  { label: "Neural Docs", href: "/neural-docs" },
-  { label: "Cotizador", href: "/cotizador" },
+  { label: "Cómo funciona", href: "#como-funciona" },
+  { label: "Industrias", href: "#industrias" },
+  { label: "Precios", href: "/cotizador" },
   { label: "Contacto", href: "#contacto" },
 ] as const;
 
-export const importQueue = [
-  { supplier: "Distribuidora La Sabana", doc: "FE-4471", total: 4462500, ok: true },
-  { supplier: "Transportes del Valle", doc: "RM-2290", total: 4200000, ok: true },
-  { supplier: "Ferretería El Tunal", doc: "FE-1187", total: 1249500, ok: false },
-  { supplier: "Papelería Chapinero", doc: "FE-0932", total: 386580, ok: true },
-  { supplier: "Combustibles La 80", doc: "FE-7715", total: 2115000, ok: true },
+export const morePages = [
+  { label: "Módulos", href: "/modulos" },
+  { label: "Neural Docs", href: "/neural-docs" },
+  { label: "Cotizador", href: "/cotizador" },
 ] as const;
+
+export const integrations = ["Siigo", "SAP", "Alegra", "Helisa", "World Office"] as const;
 
 export const stages = [
   { name: "Llega", grow: 1, tone: "navy", text: "Primero llega por correo, WhatsApp, SFTP o webhook, como ya se lo envían." },
@@ -40,6 +40,8 @@ export const stages = [
 export const industries = [
   {
     name: "Transporte",
+    slug: "transporte",
+    icon: "M3 7h11v9H3zM14 10h4l3 3v3h-7M7 19a2 2 0 1 0 0-4 2 2 0 0 0 0 4zM17 19a2 2 0 1 0 0-4 2 2 0 0 0 0 4z",
     detail: "Guías y fletes",
     docs: [
       { format: "Foto", title: "Guía o remesa terrestre", note: "Placa, peso neto, flete y anticipo de combustible", to: "Conciliación de fletes" },
@@ -49,6 +51,8 @@ export const industries = [
   },
   {
     name: "Comercio",
+    slug: "comercio",
+    icon: "M4 5h2l2 10h10l2-7H7M9 20a1 1 0 1 0 0-2 1 1 0 0 0 0 2zM17 20a1 1 0 1 0 0-2 1 1 0 0 0 0 2z",
     detail: "Proveedores y bodega",
     docs: [
       { format: "XML", title: "Factura de proveedor", note: "NIT, ítems, IVA, retefuente, ReteICA y CUFE", to: "Siigo, SAP o Alegra" },
@@ -58,6 +62,8 @@ export const industries = [
   },
   {
     name: "Salud",
+    slug: "salud",
+    icon: "M9 3h6v6h6v6h-6v6H9v-6H3V9h6z",
     detail: "IPS y clínicas",
     docs: [
       { format: "Escaneo", title: "Orden médica", note: "Paciente, médico y códigos CUPS", to: "Sistema de la IPS" },
@@ -67,6 +73,8 @@ export const industries = [
   },
   {
     name: "Restaurantes",
+    slug: "restaurantes",
+    icon: "M7 3v8M5 3v4a2 2 0 0 0 4 0V3M7 11v10M17 3c-2 0-3 3-3 7h3v11",
     detail: "Compras y reservas",
     docs: [
       { format: "XML", title: "Factura de insumos", note: "Ítems, cantidades, IVA y proveedor", to: "Inventario y costos" },

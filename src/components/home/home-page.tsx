@@ -1,143 +1,98 @@
-import Image from "next/image";
 import Link from "next/link";
 import type { CSSProperties } from "react";
 import { DocumentCheck } from "@/components/home/document-check";
 import { IndustryTabs } from "@/components/home/industry-tabs";
 import { Reveal } from "@/components/home/reveal";
-import { contactEmail, contactHref, faqs, importQueue, navigation, stages } from "@/data/home";
+import { contactEmail, contactHref, faqs, industries, integrations, morePages, navigation, stages } from "@/data/home";
 
-const cop = (value: number) => `$${value.toLocaleString("es-CO")}`;
 const delay = (index: number) => ({ "--i": index }) as CSSProperties;
 
-function Wordmark() {
+function Header() {
   return (
-    <Link className="wordmark" href="/" aria-label="NexFlow Labs, inicio">
-      <span className="wordmark__n">N</span>exFlow Labs
-    </Link>
+    <header className="topbar">
+      <Link className="wordmark" href="/" aria-label="NexFlow Labs, inicio">
+        NexFlow Labs
+      </Link>
+      <nav className="nav" aria-label="Navegación principal">
+        {navigation.map((item) => (
+          <Link key={item.href} href={item.href}>
+            {item.label}
+          </Link>
+        ))}
+        <a className="button button--small" href={contactHref}>
+          Agendar un diagnóstico
+        </a>
+      </nav>
+    </header>
   );
 }
 
 function Hero() {
   return (
     <section className="hero" aria-labelledby="hero-title">
-      <div className="hero__talk">
-        <div className="hero__top">
-          <Wordmark />
-        </div>
-        <p className="hero__lead">
-          Leemos sus facturas y guías, las validamos con la DIAN y las cargamos en su ERP.
-        </p>
-        <a className="button" href={contactHref}>
-          Agendar un diagnóstico
-        </a>
-      </div>
+      <p className="hero__kicker">Automatización de documentos contables</p>
+      <h1 className="hero__title" id="hero-title">
+        <span className="mask">
+          <span>Deje de digitar</span>
+        </span>
+      </h1>
+      <p className="hero__lead">
+        Cada mes alguien copia facturas al ERP y busca por qué no cuadra. Nosotros las leemos, las validamos con la
+        DIAN y las cargamos.
+      </p>
+      <a className="button" href={contactHref}>
+        Agendar un diagnóstico
+      </a>
 
-      <div className="hero__wide">
-        <nav className="nav" aria-label="Navegación principal">
-          {navigation.map((item) => (
-            <Link key={item.href} href={item.href}>
-              {item.label}
-            </Link>
+      <div className="picker">
+        <h2 className="picker__title">¿Qué documentos digita su equipo?</h2>
+        <div className="picker__grid">
+          {industries.map((item, index) => (
+            <a className="tile" href={`#industria-${item.slug}`} key={item.slug} style={delay(index)}>
+              <svg className="tile__icon" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d={item.icon} />
+              </svg>
+              <span className="tile__name">{item.name}</span>
+              <span className="tile__detail">{item.detail}</span>
+            </a>
           ))}
-        </nav>
-        <h1 className="hero__title" id="hero-title">
-          <span className="mask">
-            <span>Deje de</span>
-          </span>
-          <span className="mask">
-            <span>digitar.</span>
-          </span>
-        </h1>
-      </div>
-
-      <div className="hero__figure">
-        <div className="hero__badge">
-          <p className="hero__badge-figure">$0</p>
-          <p>de descuadre: si no cuadra al peso, no entra a su ERP.</p>
-        </div>
-        <div className="queue" data-ui aria-label="Ejemplo de cola de importación a Siigo">
-          <div className="queue__bar">
-            <span>Importación a Siigo · hoy</span>
-            <span>Datos de ejemplo</span>
-          </div>
-          <table>
-            <thead>
-              <tr>
-                <th scope="col">Proveedor</th>
-                <th scope="col">Documento</th>
-                <th scope="col" className="num">
-                  Total
-                </th>
-                <th scope="col">Estado</th>
-              </tr>
-            </thead>
-            <tbody>
-              {importQueue.map((row) => (
-                <tr key={row.doc} className={row.ok ? undefined : "is-flagged"}>
-                  <td>{row.supplier}</td>
-                  <td>{row.doc}</td>
-                  <td className="num">{cop(row.total)}</td>
-                  <td>
-                    <span className={row.ok ? "status status--ok" : "status status--review"}>
-                      {row.ok ? "Cargada" : "Revisar IVA"}
-                    </span>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
         </div>
       </div>
     </section>
   );
 }
 
-function Intro() {
+function Demo() {
   return (
-    <section className="intro" aria-labelledby="intro-title">
-      <h2 className="intro__title" id="intro-title" data-reveal>
-        Copiar facturas no es contabilidad.
-      </h2>
-      <p className="intro__text" data-reveal style={delay(1)}>
-        Cada mes alguien copia NIT, IVA y retenciones de cientos de PDF al ERP, y luego busca por qué no cuadra.
-        Eso lo hacemos nosotros.
-      </p>
-      <figure className="intro__photo">
-        <Image
-          src="/images/home/archive-boxes.jpg"
-          alt="Estantes con cajas de archivo llenas de documentos"
-          width={1920}
-          height={2560}
-          sizes="(max-width: 900px) 100vw, 50vw"
-        />
-      </figure>
-      <figure className="intro__small" data-reveal style={delay(2)}>
-        <Image
-          src="/images/home/ledger-portrait.jpg"
-          alt="Libro de contabilidad antiguo, de tapa verde"
-          width={1911}
-          height={3000}
-          sizes="(max-width: 900px) 50vw, 360px"
-        />
-      </figure>
+    <section className="band-section showcase" id="demo" aria-labelledby="showcase-title">
+      <div className="container">
+        <div className="showcase__head">
+          <h2 className="section-title" id="showcase-title" data-reveal>
+            Pruebe la validación
+          </h2>
+          <div className="zero" data-reveal style={delay(1)}>
+            <p className="zero__figure">$0</p>
+            <p className="zero__text">de descuadre: si un documento no cuadra al peso, no entra a su ERP.</p>
+          </div>
+        </div>
+        <div data-reveal style={delay(2)}>
+          <DocumentCheck />
+        </div>
+      </div>
     </section>
   );
 }
 
 function Stages() {
   return (
-    <section className="stages" aria-labelledby="stages-title">
+    <section className="container stages" id="como-funciona" aria-labelledby="stages-title">
       <h2 className="section-title" id="stages-title" data-reveal>
-        Del correo al ERP.
+        Del correo al ERP
       </h2>
-      <ol className="stages__bar" data-ui>
+      <span className="stages__line" aria-hidden="true" data-reveal />
+      <ol className="stages__bar">
         {stages.map((stage, index) => (
-          <li
-            key={stage.name}
-            className={`stage stage--${stage.tone}`}
-            style={{ ...delay(index + 1), flexGrow: stage.grow }}
-            data-reveal
-          >
+          <li key={stage.name} className={`stage stage--${stage.tone}`} style={delay(index * 4 + 2)} data-reveal>
             <span className="stage__name">{stage.name}</span>
             <span className="stage__text">{stage.text}</span>
           </li>
@@ -149,84 +104,66 @@ function Stages() {
 
 function Industries() {
   return (
-    <section className="industries" aria-labelledby="industries-title">
-      <div className="industries__head">
-        <h2 className="industries__title" id="industries-title" data-reveal>
-          <span className="soft">Qué leemos</span>
-          <br />
-          en cada industria.
+    <section className="band-section industries" id="industrias" aria-labelledby="industries-title">
+      <div className="container">
+        <h2 className="section-title" id="industries-title" data-reveal>
+          Qué leemos en cada industria
         </h2>
-        <a className="button" href={contactHref} data-reveal style={delay(1)}>
-          Agendar un diagnóstico
-        </a>
-      </div>
-      <div data-reveal style={delay(2)}>
-        <IndustryTabs />
+        <div data-reveal style={delay(1)}>
+          <IndustryTabs />
+        </div>
       </div>
     </section>
   );
 }
 
-function Showcase() {
+function Integrations() {
   return (
-    <section className="showcase" aria-labelledby="showcase-title">
-      <h2 className="sr-only" id="showcase-title">
-        Pruebe la validación
+    <section className="container erp" aria-labelledby="erp-title">
+      <h2 className="erp__title" id="erp-title" data-reveal>
+        Se conecta con su ERP
       </h2>
-      <div data-reveal>
-        <DocumentCheck />
-      </div>
+      <p className="erp__list" data-reveal style={delay(1)}>
+        {integrations.join(" · ")} <span className="soft">· o Excel y CSV si no usa ERP</span>
+      </p>
     </section>
   );
 }
 
 function Faq() {
   return (
-    <section className="faq" aria-labelledby="faq-title">
-      <h2 className="faq__title" id="faq-title" data-reveal>
-        Preguntas frecuentes
-      </h2>
-      <div className="faq__text" data-reveal style={delay(1)}>
-        {faqs.map(([question, answer]) => (
-          <p key={question}>
-            <strong>{question}</strong> {answer}
-          </p>
-        ))}
+    <section className="band-section faq" aria-labelledby="faq-title">
+      <div className="container faq__inner">
+        <h2 className="faq__title" id="faq-title" data-reveal>
+          Preguntas frecuentes
+        </h2>
+        <div className="faq__text" data-reveal style={delay(1)}>
+          {faqs.map(([question, answer]) => (
+            <p key={question}>
+              <strong>{question}</strong> {answer}
+            </p>
+          ))}
+        </div>
       </div>
     </section>
   );
 }
 
 function Closing() {
-  const photos = [
-    { src: "/images/home/truck-colombia.jpg", alt: "Camión de estacas detenido en una carretera de Colombia", w: 1024, h: 768 },
-    { src: "/images/home/archive-stacks.jpg", alt: "Pasillo de un archivo con estantes de documentos", w: 1920, h: 1241 },
-    { src: "/images/home/ledger-met.jpg", alt: "Libro de cuentas abierto con anotaciones a mano", w: 1920, h: 1440 },
-  ];
   return (
-    <section className="closing" id="contacto" aria-labelledby="closing-title">
-      <div className="closing__strip">
-        {photos.map((photo, index) => (
-          <Image key={photo.src} src={photo.src} alt={photo.alt} width={photo.w} height={photo.h} sizes="(max-width: 900px) 100vw, 34vw" data-reveal style={delay(index)} />
-        ))}
-      </div>
-      <div className="closing__band">
-        <h2 className="closing__title" id="closing-title" data-reveal>
-          Hablemos de sus documentos.
-        </h2>
-        <p className="closing__statement" data-reveal style={delay(1)}>
-          <a href={contactHref}>Cuéntenos qué digita su equipo</a> y le mostramos cómo llegaría a su ERP, ya
-          validado.
-        </p>
-        <div className="closing__notes" data-reveal style={delay(2)}>
-          <p>
-            Le respondemos desde <a href={`mailto:${contactEmail}`}>{contactEmail}</a>.
-          </p>
-          <p>
-            ¿Quiere una cifra antes? <Link href="/cotizador">Use el cotizador</Link>.
-          </p>
-        </div>
-      </div>
+    <section className="container closing" id="contacto" aria-labelledby="closing-title">
+      <h2 className="closing__title" id="closing-title" data-reveal>
+        Hablemos de sus documentos
+      </h2>
+      <p className="closing__statement" data-reveal style={delay(1)}>
+        Cuéntenos qué digita su equipo y le mostramos cómo llegaría a su ERP, ya validado.
+      </p>
+      <a className="button" href={contactHref} data-reveal style={delay(2)}>
+        Agendar un diagnóstico
+      </a>
+      <p className="closing__notes" data-reveal style={delay(3)}>
+        <a href={`mailto:${contactEmail}`}>{contactEmail}</a> · <Link href="/cotizador">Estimar el costo en el cotizador</Link>
+      </p>
     </section>
   );
 }
@@ -234,44 +171,31 @@ function Closing() {
 function Footer() {
   return (
     <footer className="footer">
-      <div className="footer__cols">
-        <div>
-          <p className="footer__lead">NexFlow Labs S.A.S.</p>
-          <p>NIT 901.784.329-1</p>
-          <p>Cundinamarca, Colombia</p>
-        </div>
-        <div>
-          <p className="footer__lead">Páginas</p>
-          {navigation.slice(0, 3).map((item) => (
-            <p key={item.href}>
-              <Link href={item.href}>{item.label}</Link>
-            </p>
-          ))}
-        </div>
-        <div>
-          <p className="footer__lead">Contacto</p>
+      <div className="container footer__inner">
+        <div className="footer__cols">
           <p>
-            <a href={`mailto:${contactEmail}`}>{contactEmail}</a>
+            <strong>NexFlow Labs S.A.S.</strong> · NIT 901.784.329-1 · Cundinamarca, Colombia
+          </p>
+          <p className="footer__links">
+            {morePages.map((item) => (
+              <Link key={item.href} href={item.href}>
+                {item.label}
+              </Link>
+            ))}
           </p>
         </div>
-        <p className="footer__credits">
-          Fotos: <a href="https://commons.wikimedia.org/w/index.php?curid=63121088">“Boxes of archival documents”</a>, Smallison,{" "}
-          <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>;{" "}
-          <a href="https://collections.museumsvictoria.com.au/items/1346936">“Accounts Ledger, The Embassy Cake Shop”</a>, Museums Victoria,{" "}
-          <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>;{" "}
-          <a href="https://www.flickr.com/photos/42391519@N02/4279011513">“Colombia, truck by the highway 005”</a>, momentcaptured1,{" "}
-          <a href="https://creativecommons.org/licenses/by/2.0/">CC BY 2.0</a>;{" "}
-          <a href="https://commons.wikimedia.org/w/index.php?curid=16634316">“Documents stacks in a repository”</a>, The National Archives (UK),{" "}
-          <a href="https://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>;{" "}
-          <a href="https://commons.wikimedia.org/w/index.php?curid=58742698">“Account Book Ledger”</a>, John Carlin, CC0.
+        <svg className="footer__wordmark" viewBox="0 0 1000 150" role="img" aria-label="NexFlow Labs">
+          <text x="0" y="122" textLength="1000" lengthAdjust="spacingAndGlyphs">
+            NEXFLOW LABS
+          </text>
+        </svg>
+        <p className="footer__legal">
+          © 2026 NexFlow Labs S.A.S. Todos los derechos reservados. Logotipo en{" "}
+          <a href="https://www.behance.net/gallery/33808280/Elianto-Free-Font">Elianto</a>, de Emanuele Papale. Tipografía{" "}
+          <a href="https://www.behance.net/gallery/26132489/Nidus-Sans-Font-Download">Nidus Sans</a>, de NiDBiLD (
+          <a href="https://creativecommons.org/licenses/by-nd/4.0/">CC BY-ND 4.0</a>).
         </p>
       </div>
-      <svg className="footer__wordmark" viewBox="0 0 1000 150" role="img" aria-label="NexFlow Labs">
-        <text x="0" y="122" textLength="1000" lengthAdjust="spacingAndGlyphs">
-          NexFlow Labs
-        </text>
-      </svg>
-      <p className="footer__legal">© 2026 NexFlow Labs S.A.S. Todos los derechos reservados.</p>
     </footer>
   );
 }
@@ -279,12 +203,13 @@ function Footer() {
 export function HomePage() {
   return (
     <div className="home">
-      <main className="home__main">
+      <main>
+        <Header />
         <Hero />
-        <Intro />
+        <Demo />
         <Stages />
         <Industries />
-        <Showcase />
+        <Integrations />
         <Faq />
         <Closing />
       </main>
