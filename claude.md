@@ -4,6 +4,8 @@ Lee primero [`agents.md`](./agents.md), [`readme.md`](./readme.md) y [`system-de
 
 ## Reglas
 
+- Excepción aprobada (nov 2026): la home (`/`) se rediseñó fuera de Figma, con código propio en `src/components/home/`, estilos en `src/app/home.css` y contenido en `src/data/home.ts`. Las reglas de fidelidad a Figma siguen aplicando a `/neural-docs`, `/modulos` y `/cotizador`. En la home no se publican certificaciones, SLA ni cifras de rendimiento sin confirmación del negocio.
+
 - No empezar funcionalidades de backend, OCR, IA, persistencia, autenticación o carga real de documentos sin una solicitud explícita.
 - Tratar la información de la demo como ficticia y precargada; no presentarla como evidencia de rendimiento real.
 - Mantener las aplicaciones futuras de NexFlow fuera del alcance de este sitio.

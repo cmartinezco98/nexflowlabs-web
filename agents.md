@@ -7,7 +7,7 @@ Este repositorio corresponde inicialmente al sitio comercial de NexFlow Labs, no
 ## Alcance vigente
 
 - La web comercial usa Next.js App Router y TypeScript. Revisar `package.json` antes de asumir versiones u otras herramientas.
-- Los cuatro frames de Figma se sirven en `/` (Core), `/neural-docs`, `/modulos` y `/cotizador` (Cotizador & Terminal).
+- Los frames de Figma se sirven en `/neural-docs`, `/modulos` y `/cotizador` (Cotizador & Terminal). La home (`/`) se rediseñó fuera de Figma con aprobación del usuario (ver `claude.md`); su contenido vive en `src/data/home.ts`.
 - El sitio presentará una demo visual con datos y resultados precargados. No se procesa ni se acepta ningún archivo real.
 - Los controles sin transiciones definidas permanecen visuales. No se guardan leads en el sitio.
 - Usar el email incluido en Figma; no inventar un enlace o número de WhatsApp.
