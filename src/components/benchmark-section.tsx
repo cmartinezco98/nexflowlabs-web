@@ -1,4 +1,4 @@
-const contactEmail = "contacto@nexflowlabs.com";
+const contactEmail = "contacto@nexflowlabs.co";
 
 export function BenchmarkSection() {
   const sandboxHref = `mailto:${contactEmail}?subject=${encodeURIComponent("Prueba de estrés NexFlow Neural Docs")}`;

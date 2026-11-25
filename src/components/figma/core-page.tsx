@@ -889,7 +889,7 @@ export function FigmaCorePage() {
               </div>
               <div className="content-stretch flex flex-col items-start relative shrink-0" data-node-id="1:1918" data-name="Link">
                 <div className="[word-break:break-word] flex flex-col font-['JetBrains_Mono:Medium'] font-medium justify-center leading-[0] relative shrink-0 text-[#e4beb9] text-[11px] tracking-[0.44px] whitespace-nowrap" data-node-id="1:1919">
-                  <p className="[text-decoration-skip-ink:none] [text-underline-position:from-font] decoration-[#5b403d] decoration-[1px] decoration-solid leading-[14px] underline">contacto@nexflowlabs.com</p>
+                  <p className="[text-decoration-skip-ink:none] [text-underline-position:from-font] decoration-[#5b403d] decoration-[1px] decoration-solid leading-[14px] underline">contacto@nexflowlabs.co</p>
                 </div>
               </div>
             </div>

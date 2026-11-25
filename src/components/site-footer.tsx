@@ -25,7 +25,7 @@ export function SiteFooter() {
           <div className="footer-details">
             <span>NIT: 901.784.329-1</span>
             <span>Ubicación: Cundinamarca, Colombia</span>
-            <a href="mailto:contacto@nexflowlabs.com">contacto@nexflowlabs.com</a>
+            <a href="mailto:contacto@nexflowlabs.co">contacto@nexflowlabs.co</a>
           </div>
           <p>© 2025 NexFlow Labs S.A.S. Todos los derechos reservados.</p>
         </div>

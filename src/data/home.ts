@@ -1,6 +1,6 @@
 // Contenido de la home. Empresas, NIT y valores de los documentos son ficticios (datos de ejemplo).
 
-export const contactEmail = "contacto@nexflowlabs.com";
+export const contactEmail = "contacto@nexflowlabs.co";
 
 const mailBody = [
   "Hola, equipo de NexFlow Labs:",
