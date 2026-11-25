@@ -3,9 +3,9 @@ import type { Metadata } from "next";
 import "./home.css";
 
 export const metadata: Metadata = {
-  title: "Automatización de facturas y documentos contables",
+  title: "Desarrollo web, aplicaciones y soporte técnico",
   description:
-    "NexFlow Labs lee sus facturas, guías y órdenes, las valida con las reglas de la DIAN y las carga en Siigo, SAP o Alegra.",
+    "NexFlow Labs construye sitios web y aplicaciones y da soporte técnico a pymes, empresas medianas y startups. Creadores de Alfred, la carta QR para restaurantes.",
 };
 
 export default function Page() {
