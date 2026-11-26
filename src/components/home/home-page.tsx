@@ -1,5 +1,5 @@
 import { BriefWizard } from "@/components/home/brief-wizard";
-import { Device, KitchenScreen, cop, sampleTotal } from "@/components/home/device";
+import { Device, cop, sampleTotal } from "@/components/home/device";
 import { DeviceShowcase } from "@/components/home/device-showcase";
 import { OrderTour } from "@/components/home/order-tour";
 import {
@@ -59,7 +59,12 @@ function Hero() {
           Ver Alfred
         </a>
       </div>
+    </header>
+  );
+}
 
+function AlfredStage() {
+  return (
       <div className="stage">
         <span className="glow" aria-hidden="true" />
         <span className="glow glow--warm" aria-hidden="true" />
@@ -107,7 +112,6 @@ function Hero() {
           <span>Bre-B o Nequi</span>
         </div>
       </div>
-    </header>
   );
 }
 
@@ -140,31 +144,20 @@ function Highlights() {
   );
 }
 
-function AlfredSpin() {
+function Alfred() {
   return (
-    <section className="spin" id="alfred" aria-labelledby="spin-title">
-      <div className="spin__pin">
-        <div className="spin__copy">
-          <span className="eyebrow">Proyecto destacado</span>
-          <h2 className="section-title" id="spin-title">
-            Alfred, de frente
-          </h2>
-          <p className="section__sub">La carta QR para restaurantes, cafés y bares, en el celular de sus clientes.</p>
-          <a className="button" href={alfredHref}>
-            Conocer Alfred
-          </a>
-        </div>
-        <div className="spin__device">
-          <Device label="Celular mostrando la pantalla de cocina de Alfred" dark>
-            <KitchenScreen />
-          </Device>
-        </div>
-        <div className="spin__chips" aria-hidden="true">
-          <span className="chip glass chip--1">Sin descargar nada</span>
-          <span className="chip glass chip--2">Pedidos en vivo a cocina</span>
-          <span className="chip glass chip--3">Cobro con Bre-B o Nequi</span>
-        </div>
+    <section className="section container alfred" id="alfred" aria-labelledby="alfred-title">
+      <div className="alfred__copy reveal">
+        <span className="eyebrow">Proyecto destacado</span>
+        <h2 className="section-title" id="alfred-title">
+          Alfred, de frente
+        </h2>
+        <p className="section__sub">La carta QR para restaurantes, cafés y bares, en el celular de sus clientes.</p>
+        <a className="button" href={alfredHref}>
+          Conocer Alfred
+        </a>
       </div>
+      <AlfredStage />
     </section>
   );
 }
@@ -329,13 +322,13 @@ export function HomePage() {
       <Nav />
       <main>
         <Hero />
+        <DeviceShowcase />
         <Ticker />
         <Highlights />
-        <AlfredSpin />
+        <Alfred />
         <section className="section container" id="recorrido" aria-labelledby="tour-title">
           <OrderTour />
         </section>
-        <DeviceShowcase />
         <Services />
         <Process />
         <Brief />

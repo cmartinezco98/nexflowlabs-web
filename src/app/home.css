@@ -90,7 +90,7 @@
   line-height: 1.04;
 }
 
-.home :is(.topnav__links, .button, .hero__kicker, .eyebrow, .chip, .service__examples, .segmented__option, .app__live, .brief__step, .brief__back, .footer__cols) {
+.home :is(.topnav__links, .button, .hero__kicker, .eyebrow, .service__examples, .segmented__option, .app__live, .brief__step, .brief__back, .footer__cols) {
   font-family: var(--short);
 }
 
@@ -645,69 +645,20 @@
   color: var(--dim);
 }
 
-/* ---------- Alfred gira de canto a frente ---------- */
+/* ---------- Alfred: el celular con sus avisos de vidrio ---------- */
 
-.spin {
-  position: relative;
-  height: 1800px;
-}
-
-.spin__pin {
-  position: sticky;
-  top: 0;
-  height: 100vh;
-  min-height: 700px;
-  max-width: 1200px;
-  margin-inline: auto;
-  padding-inline: var(--m);
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  align-items: center;
-  gap: 40px;
-  perspective: 1800px;
-}
-
-.spin__copy {
-  position: relative;
-  z-index: 3;
+.alfred {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
+  text-align: center;
+}
+
+.alfred__copy {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   gap: 18px;
-}
-
-.spin__device {
-  justify-self: center;
-  transform-style: preserve-3d;
-}
-
-.spin__chips {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-}
-
-.chip {
-  position: absolute;
-  padding: 12px 18px;
-  border-radius: 999px;
-  font-size: 14px;
-  white-space: nowrap;
-}
-
-.chip--1 {
-  right: calc(50% + 40px);
-  top: 16%;
-}
-
-.chip--2 {
-  right: 0;
-  top: 58%;
-}
-
-.chip--3 {
-  right: calc(50% + 20px);
-  top: 84%;
 }
 
 /* ---------- Secciones ---------- */
@@ -1220,17 +1171,27 @@
     }
   }
 
-  /* El celular del hero se inclina y se acerca al bajar. */
+  /* El celular de Alfred se endereza y se acerca al entrar. */
+  .stage__rise {
+    animation: none;
+  }
+
   .stage__tilt {
     animation: tilt linear both;
-    animation-timeline: scroll();
-    animation-range: 0 900px;
+    animation-timeline: view();
+    animation-range: entry 0% cover 50%;
   }
 
   @keyframes tilt {
-    to {
-      transform: rotateX(14deg) scale(1.08) translateY(-30px);
+    from {
+      transform: translateY(140px) rotateX(24deg) scale(0.86);
     }
+  }
+
+  .widget {
+    animation-timeline: view(), auto;
+    animation-range: entry 60% cover 45%, normal;
+    animation-delay: 0s, 2s;
   }
 
   .reveal {
@@ -1257,54 +1218,6 @@
     to {
       color: var(--ink);
     }
-  }
-
-  /* De canto a frente. */
-  .spin {
-    view-timeline-name: --spin;
-  }
-
-  .spin__device {
-    animation: spin linear both;
-    animation-timeline: --spin;
-    animation-range: contain 0% contain 55%;
-  }
-
-  @keyframes spin {
-    from {
-      transform: rotateY(86deg) rotateX(6deg) scale(0.82);
-    }
-
-    60% {
-      transform: rotateY(24deg) rotateX(4deg) scale(0.95);
-    }
-
-    to {
-      transform: none;
-    }
-  }
-
-  .spin__copy {
-    animation: fade-up linear both;
-    animation-timeline: --spin;
-    animation-range: contain 30% contain 55%;
-  }
-
-  .chip {
-    animation: pop linear both;
-    animation-timeline: --spin;
-  }
-
-  .chip--1 {
-    animation-range: contain 50% contain 62%;
-  }
-
-  .chip--2 {
-    animation-range: contain 56% contain 68%;
-  }
-
-  .chip--3 {
-    animation-range: contain 62% contain 74%;
   }
 
   .process {
@@ -1894,25 +1807,6 @@
     right: 0;
   }
 
-  .spin__pin {
-    grid-template-columns: 1fr;
-    align-content: center;
-    gap: 8px;
-  }
-
-  .spin__copy {
-    align-items: center;
-    text-align: center;
-  }
-
-  .spin__device {
-    scale: 0.62;
-    margin-block: -110px;
-  }
-
-  .spin__chips {
-    display: none;
-  }
 
   .devices__pin {
     grid-template-columns: 1fr;
@@ -1989,14 +1883,6 @@
     padding-block: 96px;
   }
 
-  .spin {
-    height: 1500px;
-  }
-
-  .spin__device {
-    scale: 0.56;
-    margin-block: -140px;
-  }
 
   .tour__device .device {
     scale: 0.86;

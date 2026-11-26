@@ -167,7 +167,7 @@ export function DeviceShowcase() {
     <section className="devices" id="dispositivos" ref={section} aria-labelledby="devices-title">
       <div className="devices__pin">
         <div className="devices__copy">
-          <span className="eyebrow">Lo que hacemos</span>
+          <span className="eyebrow">Servicios</span>
           <h2 className="section-title" id="devices-title">
             Cada servicio, en su pantalla
           </h2>
