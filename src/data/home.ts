@@ -69,6 +69,17 @@ export const ticker = [
   "Soporte técnico",
 ] as const;
 
+// Recorrido de dispositivos: cada servicio enfoca la pantalla donde vive.
+export const deviceServices = [
+  { name: "Soporte técnico", device: "desktop", text: "Revisamos equipos, redes y programas cuando algo deja de funcionar." },
+  { name: "Sitios web", device: "laptop", text: "Sitios rápidos que explican su negocio y le traen clientes." },
+  { name: "Landing pages", device: "phone", text: "Una página enfocada en una campaña y en una sola acción." },
+  { name: "Aplicaciones web", device: "laptop", text: "Herramientas a la medida que su equipo usa desde el navegador." },
+  { name: "Aplicaciones móviles", device: "phone", text: "Apps para Android e iOS que sus clientes llevan en el bolsillo." },
+  { name: "Paneles de administración", device: "desktop", text: "Pedidos, inventario y usuarios en un solo lugar." },
+  { name: "Mantenimiento", device: "tablet", text: "Actualizaciones, copias de seguridad y ajustes para que todo siga andando." },
+] as const;
+
 export const workSteps = [
   { when: "Primero", name: "Conversamos", text: "Nos cuenta qué necesita y entendemos cómo funciona su negocio." },
   { when: "Después", name: "Construimos", text: "Diseñamos y desarrollamos, mostrándole avances para ajustar a tiempo." },

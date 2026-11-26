@@ -1,5 +1,6 @@
 import { BriefWizard } from "@/components/home/brief-wizard";
 import { Device, KitchenScreen, cop, sampleTotal } from "@/components/home/device";
+import { DeviceShowcase } from "@/components/home/device-showcase";
 import { OrderTour } from "@/components/home/order-tour";
 import {
   alfredHref,
@@ -334,6 +335,7 @@ export function HomePage() {
         <section className="section container" id="recorrido" aria-labelledby="tour-title">
           <OrderTour />
         </section>
+        <DeviceShowcase />
         <Services />
         <Process />
         <Brief />
