@@ -1094,6 +1094,16 @@
   color: var(--soft);
 }
 
+/* Créditos que exigen las licencias de las fuentes: mínimos pero legibles. */
+.footer__credits {
+  font-size: 10px;
+  color: var(--dim);
+}
+
+.footer__credits a {
+  color: inherit;
+}
+
 /* Botón flotante de WhatsApp, en vidrio */
 .home .whatsapp-float {
   position: fixed;
@@ -1361,14 +1371,6 @@
   transform: translate(-300px, -190px) rotateY(-6deg) scale(1.3);
 }
 
-.devices__note {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  margin: 0;
-  font-size: 13px;
-  color: var(--dim);
-}
 
 .dev {
   position: absolute;
@@ -1779,6 +1781,35 @@
 
 /* ---------- Tableta y teléfono ---------- */
 
+/* Debajo de 1100px la escena necesita todo el ancho. */
+@media (max-width: 1100px) {
+  .devices__pin {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto minmax(0, 1fr);
+    padding-top: 84px;
+    text-align: center;
+  }
+
+  .devices__list {
+    margin-top: 12px;
+  }
+
+  .devices__list li {
+    padding-left: 0;
+    border: 0;
+  }
+
+  .devices__list li:not(.is-on) {
+    display: none;
+  }
+
+  .devices__list button {
+    width: 100%;
+    text-align: center;
+    color: var(--ink);
+  }
+}
+
 @media (max-width: 1000px) {
   .topnav__links {
     display: none;
@@ -1808,36 +1839,7 @@
   }
 
 
-  .devices__pin {
-    grid-template-columns: 1fr;
-    grid-template-rows: auto minmax(0, 1fr);
-    padding-top: 84px;
-    text-align: center;
-  }
 
-  .devices__list {
-    margin-top: 12px;
-  }
-
-  .devices__list li {
-    padding-left: 0;
-    border: 0;
-  }
-
-  .devices__list li:not(.is-on) {
-    display: none;
-  }
-
-  .devices__list button {
-    width: 100%;
-    text-align: center;
-    color: var(--ink);
-  }
-
-  .devices__note {
-    left: 0;
-    text-align: center;
-  }
 }
 
 @media (max-width: 700px) {
@@ -1907,6 +1909,10 @@
 
   .footer__links {
     flex-wrap: wrap;
+  }
+
+  .footer__links a {
+    padding-block: 10px;
   }
 }
 

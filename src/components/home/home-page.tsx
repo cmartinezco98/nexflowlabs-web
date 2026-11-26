@@ -48,8 +48,7 @@ function Hero() {
         su software
       </h1>
       <p className="hero__lead">
-        Sitios, aplicaciones y soporte para pymes, empresas medianas y startups. Como Alfred, la carta QR que hicimos para
-        restaurantes.
+        Sitios, aplicaciones y soporte para pymes, empresas medianas y startups.
       </p>
       <div className="actions hero__actions">
         <a className="button" href="#solicitud">
@@ -138,7 +137,7 @@ function Highlights() {
       <p>
         Hacemos <span className="hl">sitios web que traen clientes</span>,{" "}
         <span className="hl">aplicaciones que ordenan su operación</span> y damos{" "}
-        <span className="hl">soporte cuando algo falla</span>. Todo hecho a la medida de su negocio, desde {location}.
+        <span className="hl">soporte cuando algo falla</span>. Todo hecho a la medida de su negocio.
       </p>
     </section>
   );
@@ -306,10 +305,13 @@ function Footer() {
           </text>
         </svg>
         <p className="footer__legal">
-          © 2026 NexFlow Labs S.A.S. Todos los derechos reservados. Logotipo en{" "}
-          <a href="https://www.behance.net/gallery/33808280/Elianto-Free-Font">Elianto</a>, de Emanuele Papale. Tipografía{" "}
-          <a href="https://www.behance.net/gallery/26132489/Nidus-Sans-Font-Download">Nidus Sans</a>, de NiDBiLD (
-          <a href="https://creativecommons.org/licenses/by-nd/4.0/">CC BY-ND 4.0</a>).
+          © 2026 NexFlow Labs S.A.S.{" "}
+          <small className="footer__credits">
+            Todos los derechos reservados. Logotipo en{" "}
+            <a href="https://www.behance.net/gallery/33808280/Elianto-Free-Font">Elianto</a>, de Emanuele Papale. Tipografía{" "}
+            <a href="https://www.behance.net/gallery/26132489/Nidus-Sans-Font-Download">Nidus Sans</a>, de NiDBiLD (
+            <a href="https://creativecommons.org/licenses/by-nd/4.0/">CC BY-ND 4.0</a>).
+          </small>
         </p>
       </div>
     </footer>

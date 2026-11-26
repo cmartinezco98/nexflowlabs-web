@@ -164,13 +164,10 @@ export function DeviceShowcase() {
   );
 
   return (
-    <section className="devices" id="dispositivos" ref={section} aria-labelledby="devices-title">
+    <section className="devices" id="dispositivos" ref={section} aria-label="Servicios">
       <div className="devices__pin">
         <div className="devices__copy">
           <span className="eyebrow">Servicios</span>
-          <h2 className="section-title" id="devices-title">
-            Cada servicio, en su pantalla
-          </h2>
           <ol className="devices__list">
             {deviceServices.map((service, index) => (
               <li key={service.name} className={index === active ? "is-on" : undefined}>
@@ -230,7 +227,6 @@ export function DeviceShowcase() {
               )}
             </div>
           </div>
-          <p className="devices__note">Pantallas de ejemplo</p>
         </div>
       </div>
     </section>
