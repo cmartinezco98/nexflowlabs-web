@@ -1,6 +1,7 @@
 import { BriefWizard } from "@/components/home/brief-wizard";
 import { Device, cop, sampleTotal } from "@/components/home/device";
 import { DeviceShowcase } from "@/components/home/device-showcase";
+import { HeroSpotlight } from "@/components/home/hero-spotlight";
 import { OrderTour } from "@/components/home/order-tour";
 import {
   alfredHref,
@@ -50,6 +51,7 @@ function Hero() {
       <p className="hero__lead">
         Sitios, aplicaciones y soporte para pymes, empresas medianas y startups.
       </p>
+      <HeroSpotlight />
       <div className="actions hero__actions">
         <a className="button" href="#solicitud">
           Cuéntenos su proyecto
