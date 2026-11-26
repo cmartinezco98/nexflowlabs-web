@@ -5,7 +5,9 @@ import { deviceServices } from "@/data/home";
 
 type Kind = (typeof deviceServices)[number]["device"];
 
-const BOX = { width: 1000, height: 620 }; // tamaño de diseño de la escena; se escala al espacio disponible
+// Tamaño de diseño de la escena; solo se reduce (nunca se agranda) para que las pantallas se vean nítidas.
+const BOX = { wide: { width: 1000, height: 620 }, compact: { width: 560, height: 440 } };
+const STEP_MS = 4500;
 
 // Pantallas de ejemplo, una por servicio. Nombres y datos son ficticios.
 const screens: ReactNode[] = [
@@ -112,120 +114,130 @@ function screenFor(kind: Kind, active: number) {
 export function DeviceShowcase() {
   const section = useRef<HTMLElement>(null);
   const stage = useRef<HTMLDivElement>(null);
+  const list = useRef<HTMLOListElement>(null);
   const [active, setActive] = useState(0);
+  const [auto, setAuto] = useState(true);
   const focus = deviceServices[active].device;
 
+  // Escala la escena al espacio disponible; en pantallas angostas se muestra un equipo a la vez.
   useEffect(() => {
-    const root = section.current;
     const box = stage.current;
-    if (!root || !box) return;
-    let frame = 0;
-
-    const update = () => {
-      frame = 0;
-      const rect = root.getBoundingClientRect();
-      const travel = root.offsetHeight - window.innerHeight;
-      const progress = Math.min(1, Math.max(0, -rect.top / travel));
-      const enter = Math.min(1, Math.max(0, (window.innerHeight - rect.top) / window.innerHeight));
-      root.style.setProperty("--enter", enter.toFixed(3));
-      setActive(Math.min(deviceServices.length - 1, Math.floor(progress * deviceServices.length)));
-    };
-    const onScroll = () => {
-      if (!frame) frame = requestAnimationFrame(update);
-    };
+    if (!box) return;
     const fit = new ResizeObserver(([entry]) => {
       const { width, height } = entry.contentRect;
-      box.style.setProperty("--fit", (Math.min(1, width / BOX.width, height / BOX.height) * 0.92).toFixed(3));
+      const size = width < 700 ? BOX.compact : BOX.wide;
+      box.style.setProperty("--fit", Math.min(1, width / size.width, height / size.height).toFixed(3));
     });
-
     fit.observe(box);
-    update();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
-    return () => {
-      fit.disconnect();
-      cancelAnimationFrame(frame);
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
-    };
+    return () => fit.disconnect();
   }, []);
 
-  const goTo = (index: number) => {
+  // Avanza solo mientras la sección está a la vista; se detiene si el visitante elige un servicio.
+  useEffect(() => {
     const root = section.current;
-    if (!root) return;
-    const travel = root.offsetHeight - window.innerHeight;
-    window.scrollTo({ top: root.offsetTop + ((index + 0.5) / deviceServices.length) * travel, behavior: "smooth" });
+    if (!root || !auto || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    let timer = 0;
+    const seen = new IntersectionObserver(([entry]) => {
+      window.clearInterval(timer);
+      if (entry.isIntersecting) {
+        timer = window.setInterval(() => setActive((index) => (index + 1) % deviceServices.length), STEP_MS);
+      }
+    }, { threshold: 0.4 });
+    seen.observe(root);
+    return () => {
+      seen.disconnect();
+      window.clearInterval(timer);
+    };
+  }, [auto]);
+
+  // En celular la lista es una fila deslizable: centra el servicio activo sin mover la página.
+  useEffect(() => {
+    const row = list.current;
+    const chip = row?.children[active] as HTMLElement | undefined;
+    if (!row || !chip || row.scrollWidth <= row.clientWidth) return;
+    row.scrollTo({ left: chip.offsetLeft - (row.clientWidth - chip.offsetWidth) / 2, behavior: "smooth" });
+  }, [active]);
+
+  const choose = (index: number) => {
+    setAuto(false);
+    setActive(index);
   };
 
   const device = (kind: Kind, label: string, children: ReactNode) => (
     <div className={`dev dev--${kind}${focus === kind ? " is-focus" : ""}`} role="img" aria-label={label}>
       {children}
+      <span className="dev__contact" />
     </div>
   );
 
   return (
     <section className="devices" id="dispositivos" ref={section} aria-label="Servicios">
-      <div className="devices__pin">
-        <div className="devices__copy">
-          <span className="eyebrow">Servicios</span>
-          <ol className="devices__list">
-            {deviceServices.map((service, index) => (
-              <li key={service.name} className={index === active ? "is-on" : undefined}>
-                <button type="button" aria-current={index === active ? "step" : undefined} onClick={() => goTo(index)}>
-                  {service.name}
-                </button>
-                <p>{service.text}</p>
-              </li>
-            ))}
-          </ol>
-        </div>
+      <div className="devices__copy">
+        <span className="eyebrow">Servicios</span>
+        <ol className="devices__list" ref={list}>
+          {deviceServices.map((service, index) => (
+            <li key={service.name} className={index === active ? "is-on" : undefined}>
+              <button type="button" aria-pressed={index === active} onClick={() => choose(index)}>
+                {service.name}
+                {index === active && auto && <span className="devices__timer" key={active} aria-hidden="true" />}
+              </button>
+              <p>{service.text}</p>
+            </li>
+          ))}
+        </ol>
+        <p className="devices__caption">{deviceServices[active].text}</p>
+      </div>
 
-        <div className="devices__stage" ref={stage}>
-          <span className="glow" aria-hidden="true" />
-          <div className="devices__enter">
-            <div className="devices__rig" data-focus={focus}>
-              {device(
-                "desktop",
-                "Computador de escritorio con una pantalla de ejemplo",
-                <>
-                  <div className="dev__monitor">
-                    <div className="dev__panel">{screenFor("desktop", active)}</div>
-                    <span className="dev__glare" />
-                  </div>
-                  <span className="dev__neck" />
-                  <span className="dev__foot" />
-                </>,
-              )}
-              {device(
-                "laptop",
-                "Portátil con una pantalla de ejemplo",
-                <>
-                  <div className="dev__lid">
-                    <span className="dev__cam" />
-                    <div className="dev__panel">{screenFor("laptop", active)}</div>
-                    <span className="dev__glare" />
-                  </div>
-                  <span className="dev__base" />
-                </>,
-              )}
-              {device(
-                "tablet",
-                "Tableta con una pantalla de ejemplo",
-                <div className="dev__slate">
-                  <div className="dev__panel">{screenFor("tablet", active)}</div>
+      <div className="devices__stage" ref={stage}>
+        <span className="glow" aria-hidden="true" />
+        <div className="devices__enter">
+          <div className="devices__rig" data-focus={focus}>
+            {device(
+              "desktop",
+              "Computador de escritorio con una pantalla de ejemplo",
+              <>
+                <div className="dev__monitor">
+                  <div className="dev__panel">{screenFor("desktop", active)}</div>
                   <span className="dev__glare" />
-                </div>,
-              )}
-              {device(
-                "phone",
-                "Celular con una pantalla de ejemplo",
-                <div className="dev__slate dev__slate--phone">
-                  <span className="dev__island" />
-                  <div className="dev__panel">{screenFor("phone", active)}</div>
+                </div>
+                <span className="dev__neck" />
+                <span className="dev__foot" />
+              </>,
+            )}
+            {device(
+              "laptop",
+              "Portátil con una pantalla de ejemplo",
+              <>
+                <div className="dev__lid">
+                  <span className="dev__cam" />
+                  <div className="dev__panel">{screenFor("laptop", active)}</div>
                   <span className="dev__glare" />
-                </div>,
-              )}
-            </div>
+                </div>
+                <span className="dev__hinge" />
+                <span className="dev__base" />
+              </>,
+            )}
+            {device(
+              "tablet",
+              "Tableta con una pantalla de ejemplo",
+              <div className="dev__slate">
+                <span className="dev__key dev__key--top" />
+                <span className="dev__lens" />
+                <div className="dev__panel">{screenFor("tablet", active)}</div>
+                <span className="dev__glare" />
+              </div>,
+            )}
+            {device(
+              "phone",
+              "Celular con una pantalla de ejemplo",
+              <div className="dev__slate dev__slate--phone">
+                <span className="dev__key dev__key--side" />
+                <span className="dev__key dev__key--vol" />
+                <span className="dev__island" />
+                <div className="dev__panel">{screenFor("phone", active)}</div>
+                <span className="dev__glare" />
+              </div>,
+            )}
           </div>
         </div>
       </div>
