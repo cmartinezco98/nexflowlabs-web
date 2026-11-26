@@ -1,7 +1,7 @@
 import { BriefWizard } from "@/components/home/brief-wizard";
 import { Device, cop, sampleTotal } from "@/components/home/device";
 import { DeviceShowcase } from "@/components/home/device-showcase";
-import { HeroSpotlight } from "@/components/home/hero-spotlight";
+import { Spotlight } from "@/components/home/spotlight";
 import { OrderTour } from "@/components/home/order-tour";
 import {
   alfredHref,
@@ -43,7 +43,7 @@ function Hero() {
   return (
     <header className="hero" id="inicio">
       <p className="hero__kicker">Desarrollo web · Aplicaciones · Soporte técnico</p>
-      <h1 className="hero__title">
+      <h1 className="hero__title spotlight">
         Construimos
         <br />
         su software
@@ -51,7 +51,6 @@ function Hero() {
       <p className="hero__lead">
         Sitios, aplicaciones y soporte para pymes, empresas medianas y startups.
       </p>
-      <HeroSpotlight />
       <div className="actions hero__actions">
         <a className="button" href="#solicitud">
           Cuéntenos su proyecto
@@ -136,10 +135,9 @@ function Ticker() {
 function Highlights() {
   return (
     <section className="highlights container" aria-label="Lo que hacemos">
-      <p>
-        Hacemos <span className="hl">sitios web que traen clientes</span>,{" "}
-        <span className="hl">aplicaciones que ordenan su operación</span> y damos{" "}
-        <span className="hl">soporte cuando algo falla</span>. Todo hecho a la medida de su negocio.
+      <p className="spotlight">
+        Hacemos sitios web que traen clientes, aplicaciones que ordenan su operación y damos soporte cuando algo falla. Todo
+        hecho a la medida de su negocio.
       </p>
     </section>
   );
@@ -340,6 +338,7 @@ export function HomePage() {
         <Closing />
       </main>
       <Footer />
+      <Spotlight />
       <a className="whatsapp-float glass" href={whatsappHref} aria-label="Escribir a NexFlow Labs por WhatsApp">
         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
           <path d="M3 21l1.7-4.6A8.5 8.5 0 1 1 8 19.6z" />

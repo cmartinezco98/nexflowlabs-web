@@ -299,18 +299,21 @@
   animation: fade-up 900ms var(--ease) 150ms both;
 }
 
-.home .hero__title {
-  position: relative;
-  font-size: clamp(46px, 8.4vw, 128px);
-  font-weight: 200;
-  line-height: 1.02;
+/* Reflector: lo ya revelado en tinta, lo pendiente en sombra, y un punto de luz que sigue el cursor. */
+.home .spotlight {
   color: transparent;
-  /* Capa 1: el punto de luz (sigue el cursor). Capa 2: lo ya revelado en tinta, lo pendiente en sombra. */
   background:
     radial-gradient(circle 240px at var(--mx, var(--sx)) var(--my, 50%), rgb(255 255 255 / 0.95), rgb(255 255 255 / 0) 70%),
     linear-gradient(100deg, var(--ink) calc(var(--sx) - 10%), #2a3a52 calc(var(--sx) + 6%)); /* taste-skill-ignore: reflector sobre el texto */
   -webkit-background-clip: text;
   background-clip: text;
+}
+
+.home .hero__title {
+  position: relative;
+  font-size: clamp(46px, 8.4vw, 128px);
+  font-weight: 200;
+  line-height: 1.02;
   animation:
     fade-up 1100ms var(--ease) 250ms both,
     sweep 2400ms cubic-bezier(0.45, 0, 0.25, 1) 400ms both;
@@ -323,7 +326,7 @@
 }
 
 @media (forced-colors: active) {
-  .home .hero__title {
+  .home .spotlight {
     color: CanvasText;
     background: none;
   }
@@ -700,7 +703,6 @@
   font-weight: 500;
   line-height: 1.22;
   letter-spacing: -0.01em;
-  color: var(--dim);
 }
 
 /* ---------- Alfred: el celular con sus avisos de vidrio ---------- */
@@ -1275,17 +1277,11 @@
     }
   }
 
-  /* Las frases clave se encienden al pasar por el centro. */
-  .hl {
-    animation: highlight linear both;
+  /* El párrafo destacado se revela con el reflector al bajar. */
+  .highlights .spotlight {
+    animation: sweep linear both;
     animation-timeline: view();
-    animation-range: cover 30% cover 45%;
-  }
-
-  @keyframes highlight {
-    to {
-      color: var(--ink);
-    }
+    animation-range: cover 15% cover 50%;
   }
 
   .process {
@@ -1980,10 +1976,6 @@
   .home *::after {
     animation: none !important;
     transition: none !important;
-  }
-
-  .home .hl {
-    color: var(--ink);
   }
 
   .devices__enter {
