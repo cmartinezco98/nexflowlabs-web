@@ -1144,9 +1144,87 @@
 .footer__wordmark {
   width: 100%;
   height: auto;
-  fill: var(--ink);
+  overflow: visible;
   font-family: var(--brand);
   font-size: 150px;
+}
+
+/* Neón: las letras en azul, desenfocadas detrás, con un parpadeo de tubo al encender. */
+.wordmark-neon {
+  fill: var(--data);
+  stroke: var(--data);
+  stroke-width: 6px;
+  filter: blur(12px) drop-shadow(0 0 28px rgb(143 179 255 / 0.9)); /* taste-skill-ignore: resplandor neón */
+  opacity: 0.9;
+  animation: neon-hum 5s ease-in-out infinite;
+}
+
+/* Relieve: cada sombra de 1px se apila sobre la anterior y forma el canto. */
+.wordmark-shade {
+  fill: #2a3a52;
+  filter:
+    drop-shadow(0 2px 0 #9aa8bb)
+    drop-shadow(0 2px 0 #7d8ca2)
+    drop-shadow(0 2px 0 #64738a)
+    drop-shadow(0 2px 0 #4c5a70)
+    drop-shadow(0 2px 0 #3a4760)
+    drop-shadow(0 2px 0 #2a3650)
+    drop-shadow(0 22px 26px rgb(0 0 0 / 0.6)); /* taste-skill-ignore: relieve del logotipo */
+}
+
+.wordmark-lit {
+  fill: var(--ink);
+  filter: drop-shadow(0 0 4px rgb(143 179 255 / 0.7)); /* taste-skill-ignore: borde de luz neón */
+}
+
+.footer__reveal {
+  transform-box: fill-box;
+  transform-origin: bottom;
+}
+
+@keyframes neon-hum {
+  0%,
+  100% {
+    fill-opacity: 1;
+  }
+
+  48% {
+    fill-opacity: 0.7;
+  }
+
+  50% {
+    fill-opacity: 1;
+  }
+
+  52% {
+    fill-opacity: 0.75;
+  }
+}
+
+@keyframes rise-reveal {
+  from {
+    transform: scaleY(0);
+  }
+}
+
+@keyframes neon-on {
+  0%,
+  30% {
+    opacity: 0;
+  }
+
+  34% {
+    opacity: 0.8;
+  }
+
+  38% {
+    opacity: 0.1;
+  }
+
+  44%,
+  100% {
+    opacity: 0.9;
+  }
 }
 
 .footer__legal {
@@ -1275,6 +1353,23 @@
       opacity: 0;
       transform: translateY(48px) scale(0.98);
     }
+  }
+
+  /* El logotipo del pie: el reflector sube de abajo hacia arriba y el neón se enciende. */
+  .footer__wordmark {
+    view-timeline-name: --wordmark;
+  }
+
+  .footer__reveal {
+    animation: rise-reveal linear both;
+    animation-timeline: --wordmark;
+    animation-range: entry 10% entry 100%;
+  }
+
+  .wordmark-neon {
+    animation: neon-on linear both, neon-hum 5s ease-in-out infinite;
+    animation-timeline: --wordmark, auto;
+    animation-range: entry 10% entry 100%, normal;
   }
 
   /* El párrafo destacado se revela con el reflector al bajar. */

@@ -299,10 +299,26 @@ function Footer() {
             <a href={`mailto:${contactEmail}`}>Correo</a>
           </p>
         </div>
+        {/* Tres capas: neón detrás, letras en sombra con relieve, y la tinta que el reflector revela de abajo hacia arriba. */}
         <svg className="footer__wordmark" viewBox="0 0 1000 150" role="img" aria-label="NexFlow Labs">
-          <text x="0" y="122" textLength="1000" lengthAdjust="spacingAndGlyphs">
-            NEXFLOW LABS
-          </text>
+          <defs>
+            <clipPath id="wordmark-reveal">
+              <rect className="footer__reveal" width="1000" height="150" />
+            </clipPath>
+          </defs>
+          {["neon", "shade", "lit"].map((layer) => (
+            <text
+              key={layer}
+              className={`wordmark-${layer}`}
+              x="0"
+              y="122"
+              textLength="1000"
+              lengthAdjust="spacingAndGlyphs"
+              clipPath={layer === "lit" ? "url(#wordmark-reveal)" : undefined}
+            >
+              NEXFLOW LABS
+            </text>
+          ))}
         </svg>
         <p className="footer__legal">
           © 2026 NexFlow Labs S.A.S.{" "}
